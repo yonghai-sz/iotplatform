@@ -3,7 +3,7 @@ name: my-deploy-example
 
 services:
   mysql:
-    image: mysql:8.0
+    image: mysql:8.0.45
     container_name: my-mysql-container
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-zzz888}
@@ -12,7 +12,7 @@ services:
       - "${MYSQL_PORT:-3307}:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+      - ./my-volumes/mysql/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD:-zzz888}"]
       interval: 5s
@@ -20,7 +20,7 @@ services:
       retries: 30
 
   mongo:
-    image: mongo:7.0
+    image: mongo:7.0.32
     container_name: my-mongo-container
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
@@ -85,7 +85,9 @@ services:
       - "${EMQX_WS_PORT:-8083}:8083"
       - "${EMQX_DASHBOARD_PORT:-18083}:18083"
     volumes:
-      - emqx-data:/opt/emqx/data
+      - emqx-log:/opt/emqx/log    
+      - ./my-volumes/emqx/opt-emqx/etc/base.hocon:/opt/emqx/etc/base.hocon:ro
+      - emqx-data:/opt/emqx/data   
     healthcheck:
       test: ["CMD", "/opt/emqx/bin/emqx", "ping"]
       interval: 5s
@@ -105,7 +107,7 @@ services:
       etcd:
         condition: service_healthy
     volumes:
-      - ./config/transform.yaml:/app/etc/transform.yaml:ro
+      - ./my-volumes/config/transform.yaml:/app/etc/transform.yaml:ro
       - backend-data:/app/backend-data 
     entrypoint: ["./transform-rpc", "-f", "etc/transform.yaml"]
 
@@ -118,7 +120,7 @@ services:
     ports:
       - "${SHORTURL_API_PORT:-8080}:8080"
     volumes:
-      - ./config/shorturl-api.yaml:/app/etc/shorturl-api.yaml:ro
+      - ./my-volumes/config/shorturl-api.yaml:/app/etc/shorturl-api.yaml:ro
       - backend-data:/app/backend-data 
     entrypoint: ["./shorturl-api", "-f", "etc/shorturl-api.yaml"]
 
@@ -131,6 +133,8 @@ volumes:
     name: "my-mongo-data-volume"
   emqx-data:
     name: "my-emqx-data-volume"
+  emqx-log:
+    name: "my-emqx-log-volume"
   backend-data:
     name: "my-backend-data-volume"
 

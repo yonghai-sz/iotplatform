@@ -1,5 +1,9 @@
 
 
+```sh
+docker container stop my-single-mongo-container
+docker container rm my-single-mongo-container
+```
 `docker container exec -it my-mongo-container mongosh --username root`    
 
 `docker container exec -it my-mongo-container mongosh admin`  在 admin 数据库下    

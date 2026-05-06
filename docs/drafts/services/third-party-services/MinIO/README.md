@@ -24,3 +24,9 @@
     ]
 }
 ```
+
+
+```sh
+docker container stop my-single-minio-container
+docker container rm my-single-minio-container
+```

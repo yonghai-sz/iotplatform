@@ -3,7 +3,7 @@ name: my-local-example
 
 services:
   mysql:
-    image: mysql:8.0
+    image: mysql:8.0.45
     container_name: my-mysql-container
     environment:
       MYSQL_ROOT_PASSWORD: zzz888
@@ -12,7 +12,7 @@ services:
       - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+      - ./my-volumes/mysql/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-pzzz888"]
       interval: 5s
@@ -20,7 +20,7 @@ services:
       retries: 30
 
   mongo:
-    image: mongo:7.0
+    image: mongo:7.0.32
     container_name: my-mongo-container
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -85,7 +85,9 @@ services:
       - "8083:8083"
       - "18083:18083"
     volumes:
-      - emqx-data:/opt/emqx/data
+      - emqx-log:/opt/emqx/log  
+      - ./my-volumes/emqx/opt-emqx/etc/base.hocon:/opt/emqx/etc/base.hocon:ro
+      - emqx-data:/opt/emqx/data   
     healthcheck:
       test: ["CMD", "/opt/emqx/bin/emqx", "ping"]
       interval: 5s
@@ -100,7 +102,7 @@ services:
     image: my-dev-transform-rpc-image:latest
     container_name: my-dev-transform-rpc-container
     volumes:   
-      - backend-data:/app/backend-data 
+      - ./my-volumes/backend-data:/app/backend-data 
     depends_on:
       mysql:
         condition: service_healthy
@@ -123,7 +125,7 @@ services:
       transform-rpc:
         condition: service_started
     volumes:
-      - backend-data:/app/backend-data 
+      - ./my-volumes/backend-data:/app/backend-data 
     ports:
       - "8080:8080"
 
@@ -136,8 +138,9 @@ volumes:
     name: "my-mongo-data-volume"
   emqx-data:
     name: "my-emqx-data-volume"
-  backend-data:
-    name: "my-backend-data-volume"
+  emqx-log:
+    name: "my-emqx-log-volume"
+
 
 # networks:
 #   service-network: 

@@ -1,0 +1,52 @@
+## Define configurations that can later be overridden through UI/API/CLI.
+##
+## Config precedence order:
+##   etc/base.hocon < cluster.hocon < emqx.conf < environment variables
+
+## Logging configs
+## EMQX provides support for two primary log handlers: `file` and `console`,
+## with an additional `audit` handler specifically designed to always direct logs to files.
+## The system's default log handling behavior can be configured via the environment
+## variable `EMQX_DEFAULT_LOG_HANDLER`, which accepts the following settings:
+##  - `file`: Directs log output exclusively to files.
+##  - `console`: Channels log output solely to the console.
+## It's noteworthy that `EMQX_DEFAULT_LOG_HANDLER` is set to `file`
+## when EMQX is initiated via systemd `emqx.service` file.
+## In scenarios outside systemd initiation, `console` serves as the default log handler.
+## Read more about configs here: https://www.emqx.io/docs/en/latest/configuration/logs.html
+log {
+    file {
+        # level = warning
+    }
+    console {
+        # level = warning
+    }
+}
+
+authentication = [
+  {
+    backend = http
+    body {
+      password = "${password}"
+      username = "${username}"
+    }
+    connect_timeout = "15s"
+    enable_pipelining = 100
+    headers {content-type = "application/json"}
+    mechanism = password_based
+    method = post
+    pool_size = 8
+    request_timeout = "5s"
+    ssl {enable = false, verify = verify_peer}
+    url = "http://example:8089/auth?clientid=${clientid}"
+  }
+]
+
+
+
+
+
+
+
+
+
