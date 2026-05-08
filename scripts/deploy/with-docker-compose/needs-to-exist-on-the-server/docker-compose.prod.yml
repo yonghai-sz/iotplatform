@@ -77,9 +77,19 @@ services:
       timeout: 5s
       retries: 30
 
+  mqtt-auth-api:
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-gozero-example-iot}-mqtt-auth-api:${TAG:-latest}
+    container_name: my-mqtt-auth-api-container
+    volumes:
+      - ./my-volumes/config/mqtt-auth-api.yaml:/app/etc/mqtt-auth-api.yaml:ro
+    entrypoint: ["./mqtt-auth-api", "-f", "etc/mqtt-auth-api.yaml"]
+
   emqx:
     image: emqx/emqx:5.8.9
     container_name: my-emqx-container
+    depends_on:
+      mqtt-auth-api:
+        condition: service_started
     ports:
       - "${EMQX_MQTT_PORT:-1883}:1883"
       - "${EMQX_WS_PORT:-8083}:8083"

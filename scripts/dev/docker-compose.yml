@@ -77,6 +77,14 @@ services:
       timeout: 5s
       retries: 30
 
+  mqtt-auth-api:
+    build:
+      context: ../../
+      dockerfile: services/mqtt-auth-api/Dockerfile
+      target: runtime
+    image: my-dev-mqtt-auth-api-image:latest
+    container_name: my-dev-mqtt-auth-api-container
+
   emqx:
     image: emqx/emqx:5.8.9
     container_name: my-emqx-container
@@ -93,6 +101,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 30
+    depends_on:
+      mqtt-auth-api:
+        condition: service_started
 
   transform-rpc:
     build:

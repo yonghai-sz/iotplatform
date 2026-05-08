@@ -20,3 +20,13 @@
 * internal/config/config.go
 * internal/svc/servicecontext.go
 * internal/logic/*.go
+
+
+
+
+
+
+```text
+Generate code from the userservice.api file in ./userservice
+```
+

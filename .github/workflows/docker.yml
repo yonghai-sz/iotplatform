@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - develop
-      - main
+      # - main
     tags:
       - "v*"
 
@@ -42,19 +42,23 @@ jobs:
 
           shorturl_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-shorturl-api:sha-${{ github.sha }}"
           transform_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:sha-${{ github.sha }}"
+          mqtt_auth_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-auth-api:sha-${{ github.sha }}"
 
           shorturl_tags="$shorturl_sha"
           transform_tags="$transform_sha"
+          mqtt_auth_tags="$mqtt_auth_sha"
 
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
             shorturl_tags="${shorturl_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-shorturl-api:latest"
             transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:latest"
+            mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-auth-api:latest"
           fi
 
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
             tag="${GITHUB_REF#refs/tags/}"
             shorturl_tags="${shorturl_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-shorturl-api:${tag}"
             transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:${tag}"
+            mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-auth-api:${tag}"
           fi
 
           {
@@ -63,6 +67,9 @@ jobs:
             echo "EOF"
             echo "transform_tags<<EOF"
             echo "${transform_tags}"
+            echo "EOF"
+            echo "mqtt_auth_tags<<EOF"
+            echo "${mqtt_auth_tags}"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
@@ -85,4 +92,14 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.transform_tags }}
+
+      - name: Build & push mqtt-auth-api (linux/amd64)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: services/mqtt-auth-api/Dockerfile
+          target: runtime
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.mqtt_auth_tags }}
 

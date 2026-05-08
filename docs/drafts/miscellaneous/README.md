@@ -42,7 +42,7 @@ test the API Gateway service
 
 ### Useful ports
 - **API**: `8080`
-- **MySQL**: `3307` (root password: `zzz888`, database: `myexampledb`)
+- **MySQL**: `3307` 
 - **Redis**: `6379`
 - **Etcd**: `2379`
 
@@ -51,8 +51,8 @@ test the API Gateway service
 
 # 系统架构图或数据流图
 # Mermaid 图表
-# 接口类型
-* 无需校验
-* 登录
-* jwt 接口
-* jwt + RBAC 接口
+
+
+
+
+`docker build -f services/mqtt-auth-api/Dockerfile --target runtime -t <namespace>/<repo>-mqtt-auth-api:<tag> .`

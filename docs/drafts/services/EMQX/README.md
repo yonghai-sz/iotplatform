@@ -1,5 +1,5 @@
 
-<https://docs.emqx.com/zh/emqx/v5.8/>
+<https://docs.emqx.com/en/emqx/v5.8/>
 
 ```sh
 docker container exec -it my-single-emqx-container /bin/bash
@@ -22,3 +22,8 @@ docker container cp -a my-single-emqx-container:/opt/emqx/etc/base.hocon /Users/
 `docker container cp -a my-single-emqx-container:/opt/emqx/etc/acl.conf /Users/chenyonghai/Desktop/` 
 `docker container cp -a my-single-emqx-container:/opt/emqx/data/authz/acl.conf /Users/chenyonghai/Desktop/` 
 
+
+
+
+
+<https://docs.emqx.com/en/emqx/v5.8/configuration/configuration.html>
