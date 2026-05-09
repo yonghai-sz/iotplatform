@@ -1,0 +1,28 @@
+syntax = "v1"
+
+type (
+	AuthReq {
+		Clientid string `form:"clientid"`
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	AuthAclRule {
+		Permission string `json:"permission"`
+		Action     string `json:"action"`
+		Topic      string `json:"topic"`
+		Qos        []int  `json:"qos,optional"`
+	}
+	AuthResp {
+		Result      string            `json:"result"`
+		IsSuperuser bool              `json:"is_superuser"`
+		ClientAttrs map[string]string `json:"client_attrs,optional"`
+		ExpireAt    int64             `json:"expire_at,optional"`
+		Acl         []AuthAclRule     `json:"acl,optional"`
+	}
+)
+
+service internal-api {
+	@handler AuthHandler
+	post /auth (AuthReq) returns (AuthResp)
+}
+

@@ -8,10 +8,10 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
-	"gozero-example-iot/services/api/internal/svc"
-	"gozero-example-iot/services/api/internal/types"
+	"iotplatform/services/api/internal/svc"
+	"iotplatform/services/api/internal/types"
 
-	"gozero-example-iot/services/rpc-transform/transformer"
+	"iotplatform/services/rpc-transform/transformer"
 )
 
 func TestExpandLogic_Expand(t *testing.T) {

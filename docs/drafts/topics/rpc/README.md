@@ -17,3 +17,7 @@
 * internal/logic/*.go
 
 
+
+```text
+Create an RPC service called "authservice" with methods Login and Verify
+```

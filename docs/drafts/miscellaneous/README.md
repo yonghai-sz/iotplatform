@@ -55,4 +55,4 @@ test the API Gateway service
 
 
 
-`docker build -f services/mqtt-auth-api/Dockerfile --target runtime -t <namespace>/<repo>-mqtt-auth-api:<tag> .`
+`docker build -f services/internal-api/Dockerfile --target runtime -t <namespace>/<repo>-internal-api:<tag> .`

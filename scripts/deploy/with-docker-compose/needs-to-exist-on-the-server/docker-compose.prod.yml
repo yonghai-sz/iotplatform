@@ -77,18 +77,18 @@ services:
       timeout: 5s
       retries: 30
 
-  mqtt-auth-api:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-gozero-example-iot}-mqtt-auth-api:${TAG:-latest}
-    container_name: my-mqtt-auth-api-container
+  internal-api:
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-internal-api:${TAG:-latest}
+    container_name: my-internal-api-container
     volumes:
-      - ./my-volumes/config/mqtt-auth-api.yaml:/app/etc/mqtt-auth-api.yaml:ro
-    entrypoint: ["./mqtt-auth-api", "-f", "etc/mqtt-auth-api.yaml"]
+      - ./my-volumes/config/internal-api.yaml:/app/etc/internal-api.yaml:ro
+    entrypoint: ["./internal-api", "-f", "etc/internal-api.yaml"]
 
   emqx:
     image: emqx/emqx:5.8.9
     container_name: my-emqx-container
     depends_on:
-      mqtt-auth-api:
+      internal-api:
         condition: service_started
     ports:
       - "${EMQX_MQTT_PORT:-1883}:1883"
@@ -105,7 +105,7 @@ services:
       retries: 30
 
   transform-rpc:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-gozero-example-iot}-transform-rpc:${TAG:-latest}
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-transform-rpc:${TAG:-latest}
     container_name: my-transform-rpc-container
     depends_on:
       mysql:
@@ -122,7 +122,7 @@ services:
     entrypoint: ["./transform-rpc", "-f", "etc/transform.yaml"]
 
   shorturl-api:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-gozero-example-iot}-shorturl-api:${TAG:-latest}
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-shorturl-api:${TAG:-latest}
     container_name: my-shorturl-api-container
     depends_on:
       transform-rpc:

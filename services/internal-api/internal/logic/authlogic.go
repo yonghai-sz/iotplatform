@@ -6,8 +6,8 @@ package logic
 import (
 	"context"
 
-	"gozero-example-iot/services/mqtt-auth-api/internal/svc"
-	"gozero-example-iot/services/mqtt-auth-api/internal/types"
+	"iotplatform/services/internal-api/internal/svc"
+	"iotplatform/services/internal-api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,5 +30,8 @@ func NewAuthLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AuthLogic {
 // See https://docs.emqx.com/en/emqx/v5.8/access-control/authn/http.html
 func (l *AuthLogic) Auth(req *types.AuthReq) (*types.AuthResp, error) {
 	l.Infow("emqx authn", logx.Field("clientid", req.Clientid), logx.Field("username", req.Username))
-	return &types.AuthResp{Result: "allow"}, nil
+	return &types.AuthResp{
+		Result:      "allow",
+		IsSuperuser: false,
+	}, nil
 }

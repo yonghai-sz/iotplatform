@@ -7,15 +7,15 @@ import (
 	"flag"
 	"fmt"
 
-	"gozero-example-iot/services/mqtt-auth-api/internal/config"
-	"gozero-example-iot/services/mqtt-auth-api/internal/handler"
-	"gozero-example-iot/services/mqtt-auth-api/internal/svc"
+	"iotplatform/services/internal-api/internal/config"
+	"iotplatform/services/internal-api/internal/handler"
+	"iotplatform/services/internal-api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )
 
-var configFile = flag.String("f", "etc/mqtt-auth-api.yaml", "the config file")
+var configFile = flag.String("f", "etc/internal-api.yaml", "the config file")
 
 func main() {
 	flag.Parse()

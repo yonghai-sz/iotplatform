@@ -6,11 +6,10 @@ package handler
 import (
 	"net/http"
 
-	"gozero-example-iot/services/mqtt-auth-api/internal/logic"
-	"gozero-example-iot/services/mqtt-auth-api/internal/svc"
-	"gozero-example-iot/services/mqtt-auth-api/internal/types"
-
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"iotplatform/services/internal-api/internal/logic"
+	"iotplatform/services/internal-api/internal/svc"
+	"iotplatform/services/internal-api/internal/types"
 )
 
 func AuthHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

@@ -1,4 +1,4 @@
-module gozero-example-iot
+module iotplatform
 
 go 1.24
 

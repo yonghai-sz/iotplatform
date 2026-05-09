@@ -6,9 +6,9 @@ package handler
 import (
 	"net/http"
 
-	"gozero-example-iot/services/api/internal/logic"
-	"gozero-example-iot/services/api/internal/svc"
-	"gozero-example-iot/services/api/internal/types"
+	"iotplatform/services/api/internal/logic"
+	"iotplatform/services/api/internal/svc"
+	"iotplatform/services/api/internal/types"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 )

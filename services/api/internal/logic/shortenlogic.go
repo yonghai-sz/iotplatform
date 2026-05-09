@@ -6,9 +6,9 @@ package logic
 import (
 	"context"
 
-	"gozero-example-iot/services/api/internal/svc"
-	"gozero-example-iot/services/api/internal/types"
-	"gozero-example-iot/services/rpc-transform/transformer"
+	"iotplatform/services/api/internal/svc"
+	"iotplatform/services/api/internal/types"
+	"iotplatform/services/rpc-transform/transformer"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

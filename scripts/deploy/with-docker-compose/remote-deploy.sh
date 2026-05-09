@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DEPLOY_PATH="${DEPLOY_PATH:-/opt/gozero-example-iot}"
+DEPLOY_PATH="${DEPLOY_PATH:-/opt/iotplatform}"
 cd "$DEPLOY_PATH"
 
 if ! command -v docker >/dev/null 2>&1; then

@@ -4,8 +4,8 @@ services:
       context: ../../
       dockerfile: services/rpc-transform/Dockerfile
       target: debug
-    image: my-debug-transform-rpc-image:latest
-    container_name: my-debug-transform-rpc-container
+    image: debug-transform-rpc-image:latest
+    container_name: debug-transform-rpc-container
     cap_add:
       - SYS_PTRACE
     security_opt:
@@ -19,8 +19,8 @@ services:
       context: ../../
       dockerfile: services/api/Dockerfile
       target: debug
-    image: my-debug-shorturl-api-image:latest
-    container_name: my-debug-shorturl-api-container
+    image: debug-shorturl-api-image:latest
+    container_name: debug-shorturl-api-container
     cap_add:
       - SYS_PTRACE
     security_opt:

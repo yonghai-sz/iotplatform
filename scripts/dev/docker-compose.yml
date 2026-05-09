@@ -77,13 +77,13 @@ services:
       timeout: 5s
       retries: 30
 
-  mqtt-auth-api:
+  internal-api:
     build:
       context: ../../
-      dockerfile: services/mqtt-auth-api/Dockerfile
+      dockerfile: services/internal-api/Dockerfile
       target: runtime
-    image: my-dev-mqtt-auth-api-image:latest
-    container_name: my-dev-mqtt-auth-api-container
+    image: dev-internal-api-image:latest
+    container_name: dev-internal-api-container
 
   emqx:
     image: emqx/emqx:5.8.9
@@ -102,7 +102,7 @@ services:
       timeout: 5s
       retries: 30
     depends_on:
-      mqtt-auth-api:
+      internal-api:
         condition: service_started
 
   transform-rpc:
@@ -110,8 +110,8 @@ services:
       context: ../../
       dockerfile: services/rpc-transform/Dockerfile
       target: runtime
-    image: my-dev-transform-rpc-image:latest
-    container_name: my-dev-transform-rpc-container
+    image: dev-transform-rpc-image:latest
+    container_name: dev-transform-rpc-container
     volumes:   
       - ./my-volumes/backend-data:/app/backend-data 
     depends_on:
@@ -130,8 +130,8 @@ services:
       context: ../../
       dockerfile: services/api/Dockerfile
       target: runtime
-    image: my-dev-shorturl-api-image:latest
-    container_name: my-dev-shorturl-api-container
+    image: dev-shorturl-api-image:latest
+    container_name: dev-shorturl-api-container
     depends_on:
       transform-rpc:
         condition: service_started

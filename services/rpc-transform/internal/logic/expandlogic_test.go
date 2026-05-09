@@ -5,10 +5,10 @@ import (
 	"errors"
 	"testing"
 
-	"gozero-example-iot/services/rpc-transform/internal/svc"
-	"gozero-example-iot/services/rpc-transform/pb/transform"
+	"iotplatform/services/rpc-transform/internal/svc"
+	"iotplatform/services/rpc-transform/pb/transform"
 
-	"gozero-example-iot/services/model"
+	"iotplatform/services/model"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"

@@ -3,8 +3,8 @@ package logic
 import (
 	"context"
 
-	"gozero-example-iot/services/rpc-transform/internal/svc"
-	"gozero-example-iot/services/rpc-transform/pb/transform"
+	"iotplatform/services/rpc-transform/internal/svc"
+	"iotplatform/services/rpc-transform/pb/transform"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

@@ -1,7 +1,8 @@
 
 `goctl api -o shorturl.api`
 
-`goctl api go -api api-dsl/main.api -dir .`
+`goctl api go -api api-dsl/main.api -dir .`  
+`goctl api go -api internal.api -dir .`
 
 `goctl api swagger --api api/shorturl.api --dir api --filename shorturl`
 

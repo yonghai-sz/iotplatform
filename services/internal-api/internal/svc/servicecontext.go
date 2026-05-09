@@ -3,7 +3,9 @@
 
 package svc
 
-import "gozero-example-iot/services/mqtt-auth-api/internal/config"
+import (
+	"iotplatform/services/internal-api/internal/config"
+)
 
 type ServiceContext struct {
 	Config config.Config

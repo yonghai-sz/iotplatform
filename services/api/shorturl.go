@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"gozero-example-iot/services/api/internal/config"
-	"gozero-example-iot/services/api/internal/handler"
-	"gozero-example-iot/services/api/internal/svc"
+	"iotplatform/services/api/internal/config"
+	"iotplatform/services/api/internal/handler"
+	"iotplatform/services/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
