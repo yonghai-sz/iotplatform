@@ -12,7 +12,7 @@ services:
       - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./my-volumes/mysql/init:/docker-entrypoint-initdb.d:ro
+      - ./myvolumes/mysql/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-pzzz888"]
       interval: 5s
@@ -94,7 +94,7 @@ services:
       - "18083:18083"
     volumes:
       - emqx-log:/opt/emqx/log  
-      - ./my-volumes/emqx/opt-emqx/etc/base.hocon:/opt/emqx/etc/base.hocon:ro
+      - ./myvolumes/emqx/opt-emqx/etc/base.hocon:/opt/emqx/etc/base.hocon:ro
       - emqx-data:/opt/emqx/data   
     healthcheck:
       test: ["CMD", "/opt/emqx/bin/emqx", "ping"]
@@ -113,7 +113,7 @@ services:
     image: dev-transform-rpc-image:latest
     container_name: dev-transform-rpc-container
     volumes:   
-      - ./my-volumes/backend-data:/app/backend-data 
+      - ./myvolumes/backend-data:/app/backend-data 
     depends_on:
       mysql:
         condition: service_healthy
@@ -136,7 +136,7 @@ services:
       transform-rpc:
         condition: service_started
     volumes:
-      - ./my-volumes/backend-data:/app/backend-data 
+      - ./myvolumes/backend-data:/app/backend-data 
     ports:
       - "8080:8080"
 

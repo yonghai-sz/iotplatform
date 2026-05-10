@@ -7,16 +7,6 @@ When working on your **temporary** branch, you can:
 
 
 
-`ssh -i /Users/chenyonghai/Desktop/SingaporeTest.pem root@47.84.204.211`    
-`uname -m`    
-
-
-
-Copies the contents of the id_ed25519.pub file to your clipboard     
-`pbcopy < ~/.ssh/id_ed25519.pub`    
-
-
-
 
 `git submodule update --remote .cursorrules`  
 `git submodule update --remote .github/ai-context`  

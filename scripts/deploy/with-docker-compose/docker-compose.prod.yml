@@ -9,10 +9,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-zzz888}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-myexampledb}
     ports:
-      - "${MYSQL_PORT:-3307}:3306"
+      - "${MYSQL_PORT:-3306}:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./my-volumes/mysql/init:/docker-entrypoint-initdb.d:ro
+      - ./myvolumes/mysql/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD:-zzz888}"]
       interval: 5s
@@ -81,7 +81,7 @@ services:
     image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-internal-api:${TAG:-latest}
     container_name: my-internal-api-container
     volumes:
-      - ./my-volumes/config/internal-api.yaml:/app/etc/internal-api.yaml:ro
+      - ./myvolumes/config/internal-api.yaml:/app/etc/internal-api.yaml:ro
     entrypoint: ["./internal-api", "-f", "etc/internal-api.yaml"]
 
   emqx:
@@ -96,7 +96,7 @@ services:
       - "${EMQX_DASHBOARD_PORT:-18083}:18083"
     volumes:
       - emqx-log:/opt/emqx/log    
-      - ./my-volumes/emqx/opt-emqx/etc/base.hocon:/opt/emqx/etc/base.hocon:ro
+      - ./myvolumes/emqx/opt-emqx/etc/base.hocon:/opt/emqx/etc/base.hocon:ro
       - emqx-data:/opt/emqx/data   
     healthcheck:
       test: ["CMD", "/opt/emqx/bin/emqx", "ping"]
@@ -117,7 +117,7 @@ services:
       etcd:
         condition: service_healthy
     volumes:
-      - ./my-volumes/config/transform.yaml:/app/etc/transform.yaml:ro
+      - ./myvolumes/config/transform.yaml:/app/etc/transform.yaml:ro
       - backend-data:/app/backend-data 
     entrypoint: ["./transform-rpc", "-f", "etc/transform.yaml"]
 
@@ -130,7 +130,7 @@ services:
     ports:
       - "${SHORTURL_API_PORT:-8080}:8080"
     volumes:
-      - ./my-volumes/config/shorturl-api.yaml:/app/etc/shorturl-api.yaml:ro
+      - ./myvolumes/config/shorturl-api.yaml:/app/etc/shorturl-api.yaml:ro
       - backend-data:/app/backend-data 
     entrypoint: ["./shorturl-api", "-f", "etc/shorturl-api.yaml"]
 

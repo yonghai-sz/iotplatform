@@ -97,9 +97,10 @@ Branch mapping:
 
 #### Server
 
-Place the `scripts/deploy/with-docker-compose/needs-to-exist-on-the-server` folder in the `$DEPLOY_PATH/` directory on the server.
+Upload everything from the `scripts/deploy/with-docker-compose/` directory to the `$DEPLOY_PATH/` directory on the server.
 
-In the `needs-to-exist-on-the-server` directory, run `mv .env.example .env`, then edit `.env`.
+
+In the `$DEPLOY_PATH/` directory, run `mv .env.example .env`, then edit `.env`.
 
 After changing `.env`, update `config/*.yaml` on the server so those files match the hostnames, ports, credentials, and other values in `.env`.
 
