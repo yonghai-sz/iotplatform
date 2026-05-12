@@ -5,7 +5,6 @@ package logic
 
 import (
 	"context"
-	"time"
 
 	"iotplatform/services/internal-api/internal/svc"
 	"iotplatform/services/internal-api/internal/types"
@@ -34,22 +33,17 @@ func (l *AuthLogic) Auth(req *types.AuthReq) (*types.AuthResp, error) {
 	return &types.AuthResp{
 		Result:      "allow",
 		IsSuperuser: false,
-		ExpireAt:    time.Now().Add(1 * time.Hour).Unix(),
-		// Acl: []types.AuthAclRule{
-		// 	{
-		// 		Permission: "publish",
-		// 		Action:     "allow",
-		// 		Topic:      "#",
-		// 	},
-		// 	{
-		// 		Permission: "subscribe",
-		// 		Action:     "allow",
-		// 		Topic:      "#",
-		// 	},
-		// },
-		// ClientAttrs: map[string]string{
-		// 	"username": req.Username,
-		// 	"password": req.Password,
-		// },
+		Acl: []types.AuthAclRule{
+			{
+				Permission: "allow",
+				Action:     "publish",
+				Topic:      "#",
+			},
+			{
+				Permission: "allow",
+				Action:     "subscribe",
+				Topic:      "#",
+			},
+		},
 	}, nil
 }

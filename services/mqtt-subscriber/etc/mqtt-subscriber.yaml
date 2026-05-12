@@ -1,0 +1,14 @@
+Name: mqtt-subscriber
+Mode: dev
+Log:
+  Mode: console
+Mqtt:
+  Broker: tcp://127.0.0.1:1883
+  ClientID: mqtt-subscriber-local
+  Username: ""
+  Password: ""
+  ConnectTimeout: 25s
+  DisconnectMs: 250
+  Subscriptions:
+    - Topic: "EVENT_UP/#"
+      Qos: 0

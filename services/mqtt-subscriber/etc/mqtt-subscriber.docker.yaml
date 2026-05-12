@@ -1,0 +1,14 @@
+Name: mqtt-subscriber
+Mode: dev
+Log:
+  Mode: console
+Mqtt:
+  Broker: tcp://emqx:1883
+  ClientID: mqtt-subscriber-docker
+  Username: ""
+  Password: ""
+  ConnectTimeout: 25s
+  DisconnectMs: 250
+  Subscriptions:
+    - Topic: "EVENT_UP/#"
+      Qos: 0

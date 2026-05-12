@@ -82,7 +82,7 @@ services:
       context: ../../
       dockerfile: services/internal-api/Dockerfile
       target: runtime
-    image: dev-internal-api-image:latest
+    image: internal-api-image:latest
     container_name: dev-internal-api-container
 
   emqx:
@@ -105,12 +105,23 @@ services:
       internal-api:
         condition: service_started
 
+  mqtt-subscriber:
+    build:
+      context: ../../
+      dockerfile: services/mqtt-subscriber/Dockerfile
+      target: runtime
+    image: mqtt-subscriber-image:latest
+    container_name: dev-mqtt-subscriber-container
+    depends_on:
+      emqx:
+        condition: service_healthy
+
   transform-rpc:
     build:
       context: ../../
       dockerfile: services/rpc-transform/Dockerfile
       target: runtime
-    image: dev-transform-rpc-image:latest
+    image: transform-rpc-image:latest
     container_name: dev-transform-rpc-container
     volumes:   
       - ./myvolumes/backend-data:/app/backend-data 
@@ -130,7 +141,7 @@ services:
       context: ../../
       dockerfile: services/api/Dockerfile
       target: runtime
-    image: dev-shorturl-api-image:latest
+    image: shorturl-api-image:latest
     container_name: dev-shorturl-api-container
     depends_on:
       transform-rpc:

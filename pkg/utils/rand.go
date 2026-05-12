@@ -27,10 +27,22 @@ func GenerateMathRandString(size int64) string {
 // using the Cryptographically secure pseudorandom number generator (CSPRNG)
 // in the crypto.rand package
 func GenerateCryptoRandString(size int) string {
-	var salt = make([]byte, size)
-	_, err := cryptorand.Read(salt[:])
-	if err != nil {
-		panic(err)
+	var bytes = make([]byte, size)
+	cryptorand.Read(bytes[:])
+
+	return base64.RawStdEncoding.EncodeToString(bytes)
+}
+
+func GenerateCryptoRandNumString(n int) string {
+	var bytes = make([]byte, n)
+	cryptorand.Read(bytes)
+
+	var numstr = "0123456789"
+	lenn := len(numstr)
+
+	for i, v := range bytes {
+		idx := v % byte(lenn)
+		bytes[i] = numstr[idx]
 	}
-	return base64.RawStdEncoding.EncodeToString(salt)
+	return string(bytes)
 }

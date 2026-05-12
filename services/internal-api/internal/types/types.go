@@ -7,7 +7,7 @@ type AuthAclRule struct {
 	Permission string `json:"permission"`
 	Action     string `json:"action"`
 	Topic      string `json:"topic"`
-	Qos        []int  `json:"qos,optional"`
+	Qos        []int  `json:"qos,omitempty"`
 }
 
 type AuthReq struct {
@@ -17,9 +17,9 @@ type AuthReq struct {
 }
 
 type AuthResp struct {
-	Result      string `json:"result"`
-	IsSuperuser bool   `json:"is_superuser"`
-	// ClientAttrs map[string]string `json:"client_attrs,optional"`
-	ExpireAt int64 `json:"expire_at,optional"`
-	// Acl         []AuthAclRule     `json:"acl,optional"`
+	Result      string            `json:"result"`
+	IsSuperuser bool              `json:"is_superuser"`
+	ClientAttrs map[string]string `json:"client_attrs,omitempty"`
+	ExpireAt    *int64            `json:"expire_at,omitempty"`
+	Acl         []AuthAclRule     `json:"acl,omitempty"`
 }
