@@ -12,24 +12,16 @@ type Manager struct {
 
 	client            gomqtt.Client
 	disconnectQuiesce uint
-
-	subscribers []SubscriptionItem
 }
 
 // NewManager dials the broker once
 // and registers onConnect resubscribe for all items.
-func NewManager(dial DialOptions, items []SubscriptionItem, disconnectQuiesce uint) (*Manager, error) {
+func NewManager(dial DialOptions, onConnect func(gomqtt.Client), disconnectQuiesce uint) (*Manager, error) {
 
 	m := &Manager{
 		disconnectQuiesce: disconnectQuiesce,
-		subscribers:       append([]SubscriptionItem(nil), items...),
 	}
 
-	onConnect := func(c gomqtt.Client) {
-		for _, item := range m.subscribers {
-			subscribe(c, item)
-		}
-	}
 	client, err := connectClient(dial, onConnect)
 	if err != nil {
 		return nil, err

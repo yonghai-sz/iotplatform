@@ -7,6 +7,8 @@
 `goctl api swagger --api api/shorturl.api --dir api --filename shorturl`
 
 
+`goctl api validate -api <file>.api`
+
 ```
 		val := r.Header.Get("User-Agent")
 		reqCtx := r.Context()

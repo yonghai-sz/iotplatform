@@ -35,8 +35,9 @@ func connectClient(opts DialOptions, onConnect func(gomqtt.Client)) (gomqtt.Clie
 	if opts.Password != "" {
 		pahoOpts.SetPassword(opts.Password)
 	}
-
-	pahoOpts.SetOnConnectHandler(onConnect)
+	if onConnect != nil {
+		pahoOpts.SetOnConnectHandler(onConnect)
+	}
 
 	client := gomqtt.NewClient(pahoOpts)
 	token := client.Connect()
