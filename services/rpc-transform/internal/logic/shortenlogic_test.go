@@ -11,7 +11,7 @@ import (
 	"iotplatform/services/rpc-transform/internal/svc"
 	"iotplatform/services/rpc-transform/pb/transform"
 
-	"iotplatform/services/model"
+	"iotplatform/services/rpc-transform/model"
 )
 
 func TestShortenLogic_Shorten(t *testing.T) {
@@ -19,7 +19,7 @@ func TestShortenLogic_Shorten(t *testing.T) {
 
 	// Build mock models and svc context
 	ctl := gomock.NewController(t)
-	shortModel := model.NewMockPlatformModel(ctl)
+	shortModel := model.NewMockExampleModel(ctl)
 	svcCtx := &svc.ServiceContext{
 		Model: shortModel,
 	}

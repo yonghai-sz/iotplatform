@@ -8,7 +8,7 @@ import (
 	"iotplatform/services/rpc-transform/internal/svc"
 	"iotplatform/services/rpc-transform/pb/transform"
 
-	"iotplatform/services/model"
+	"iotplatform/services/rpc-transform/model"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -19,7 +19,7 @@ func TestExpandLogic_Expand(t *testing.T) {
 
 	// Build mock models and svc context
 	ctl := gomock.NewController(t)
-	shortModel := model.NewMockPlatformModel(ctl)
+	shortModel := model.NewMockExampleModel(ctl)
 	svcCtx := &svc.ServiceContext{
 		Model: shortModel,
 	}
@@ -36,7 +36,7 @@ func TestExpandLogic_Expand(t *testing.T) {
 	// Simulate model FindOne success
 	shortModel.EXPECT().FindOne(gomock.Any(), gomock.Any()).
 		Return(
-			&model.Platform{
+			&model.Example{
 				Shorten: "testShorten",
 				Url:     "testUrl",
 			},

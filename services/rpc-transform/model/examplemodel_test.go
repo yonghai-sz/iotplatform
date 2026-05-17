@@ -17,7 +17,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
-func newMockPlatformModel(t *testing.T) (*defaultPlatformModel, sqlmock.Sqlmock, *miniredis.Miniredis) {
+func newMockExampleModel(t *testing.T) (*defaultExampleModel, sqlmock.Sqlmock, *miniredis.Miniredis) {
 	db, mockDb, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
@@ -25,17 +25,17 @@ func newMockPlatformModel(t *testing.T) (*defaultPlatformModel, sqlmock.Sqlmock,
 
 	rds := miniredis.RunT(t)
 
-	return &defaultPlatformModel{
+	return &defaultExampleModel{
 		CachedConn: sqlc.NewNodeConn(sqlx.NewSqlConnFromDB(db), redis.New(rds.Addr())),
 		table:      "`platform`",
 	}, mockDb, rds
 }
 
-func TestDefaultPlatformModel_Insert(t *testing.T) {
+func TestDefaultExampleModel_Insert(t *testing.T) {
 	ast := assert.New(t)
 
 	// build model, mock db and mock redis
-	model, mock, _ := newMockPlatformModel(t)
+	model, mock, _ := newMockExampleModel(t)
 
 	// mock test case
 	mock.ExpectExec(fmt.Sprintf("insert into %s", model.table)).
@@ -47,24 +47,24 @@ func TestDefaultPlatformModel_Insert(t *testing.T) {
 
 	ctx := context.Background()
 
-	_, err := model.Insert(ctx, &Platform{
+	_, err := model.Insert(ctx, &Example{
 		Shorten: "123",
 		Url:     "123",
 	})
 	ast.NotNil(err)
 
-	_, err = model.Insert(ctx, &Platform{
+	_, err = model.Insert(ctx, &Example{
 		Shorten: "345",
 		Url:     "345",
 	})
 	ast.Nil(err)
 }
 
-func TestDefaultPlatformModel_Update(t *testing.T) {
+func TestDefaultExampleModel_Update(t *testing.T) {
 	ast := assert.New(t)
 
 	// build model, mock db and mock redis
-	model, mock, _ := newMockPlatformModel(t)
+	model, mock, _ := newMockExampleModel(t)
 
 	// mock test fail case
 	mock.ExpectExec(fmt.Sprintf("update %s", model.table)).
@@ -76,24 +76,24 @@ func TestDefaultPlatformModel_Update(t *testing.T) {
 
 	ctx := context.Background()
 
-	err := model.Update(ctx, &Platform{
+	err := model.Update(ctx, &Example{
 		Shorten: "123",
 		Url:     "123",
 	})
 	ast.NotNil(err)
 
-	err = model.Update(ctx, &Platform{
+	err = model.Update(ctx, &Example{
 		Shorten: "123",
 		Url:     "123",
 	})
 	ast.Nil(err)
 }
 
-func TestDefaultPlatformModel_Delete(t *testing.T) {
+func TestDefaultExampleModel_Delete(t *testing.T) {
 	ast := assert.New(t)
 
 	// build model, mock db and mock redis
-	model, mock, _ := newMockPlatformModel(t)
+	model, mock, _ := newMockExampleModel(t)
 
 	// mock test fail case
 	mock.ExpectExec(fmt.Sprintf("delete from  %s", model.table)).
@@ -112,11 +112,11 @@ func TestDefaultPlatformModel_Delete(t *testing.T) {
 	ast.Nil(err)
 }
 
-func TestDefaultPlatformModel_FindOne(t *testing.T) {
+func TestDefaultExampleModel_FindOne(t *testing.T) {
 	ast := assert.New(t)
 
 	// build model, mock db and mock redis
-	model, mock, rds := newMockPlatformModel(t)
+	model, mock, rds := newMockExampleModel(t)
 
 	ctx := context.Background()
 
@@ -135,18 +135,18 @@ func TestDefaultPlatformModel_FindOne(t *testing.T) {
 
 	ret, err := model.FindOne(ctx, "111")
 	ast.Nil(err)
-	ast.Equal(ret, &Platform{
+	ast.Equal(ret, &Example{
 		Shorten: "111",
 		Url:     "222",
 	})
 
 	// mock cache data
-	su := &Platform{
+	su := &Example{
 		Shorten: "123",
 		Url:     "234",
 	}
 	data, _ := jsonx.Marshal(su)
-	rds.Set(fmt.Sprintf("%s%v", cachePlatformShortenPrefix, su.Shorten), string(data))
+	rds.Set(fmt.Sprintf("%s%v", cacheExampleShortenPrefix, su.Shorten), string(data))
 
 	ret, err = model.FindOne(ctx, su.Shorten)
 	ast.Nil(err)

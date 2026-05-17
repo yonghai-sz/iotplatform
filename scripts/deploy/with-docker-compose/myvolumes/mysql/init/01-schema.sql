@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS `myexampledb` DEFAULT CHARACTER SET utf8mb4 DEFAUL
 
 USE `myexampledb`;
 
-CREATE TABLE IF NOT EXISTS `platform`
+CREATE TABLE IF NOT EXISTS `example`
 (
   `shorten` varchar(255) NOT NULL COMMENT 'shorten key',
   `url` varchar(255) NOT NULL COMMENT 'original url',

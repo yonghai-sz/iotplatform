@@ -6,7 +6,7 @@ import (
 	"iotplatform/services/rpc-transform/internal/svc"
 	"iotplatform/services/rpc-transform/pb/transform"
 
-	"iotplatform/services/model"
+	"iotplatform/services/rpc-transform/model"
 
 	"github.com/zeromicro/go-zero/core/hash"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -28,7 +28,7 @@ func NewShortenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ShortenLo
 
 func (l *ShortenLogic) Shorten(in *transform.ShortenReq) (*transform.ShortenResp, error) {
 	key := hash.Md5Hex([]byte(in.Url))[:6]
-	_, err := l.svcCtx.Model.Insert(l.ctx, &model.Platform{
+	_, err := l.svcCtx.Model.Insert(l.ctx, &model.Example{
 		Shorten: key,
 		Url:     in.Url,
 	})

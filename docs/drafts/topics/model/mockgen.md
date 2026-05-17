@@ -1,7 +1,20 @@
 
 
+```bash
+mockgen \
+  -destination ./examplemodel_mock.go \
+  -package model \
+  . \
+  ExampleModel
+```  
 
 
-`mockgen -destination ./platformmodel_mock.go -package model . PlatformModel`  
-`mockgen -destination platformmodel_mock.go -package model platformmodel_gen.go PlatformModel`
+
+```bash
+mockgen \
+  -destination examplemodel_mock.go \
+  -package model \
+  examplemodel_gen.go \
+  ExampleModel
+```
 

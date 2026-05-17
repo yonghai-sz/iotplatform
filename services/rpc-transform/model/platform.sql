@@ -1,4 +1,4 @@
-CREATE TABLE `platform`
+CREATE TABLE `example`
 (
   `shorten` varchar(255) NOT NULL COMMENT 'shorten key',
   `url` varchar(255) NOT NULL COMMENT 'original url',
