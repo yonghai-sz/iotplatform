@@ -1,10 +1,10 @@
-Name: shorturl-api
+Name: platform-api
 Host: 0.0.0.0
 Port: 8080
 PublicFiles: /app/backend-data/public
 Transform:
-  # Target: direct:///localhost:9001
+  # Target: direct:///transform-rpc:9001
   Etcd:
     Hosts:
-    - localhost:2379
+    - etcd:2379
     Key: transform.rpc

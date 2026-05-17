@@ -5,23 +5,23 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
-var _ ShorturlModel = (*customShorturlModel)(nil)
+var _ PlatformModel = (*customPlatformModel)(nil)
 
 type (
-	// ShorturlModel is an interface to be customized, add more methods here,
-	// and implement the added methods in customShorturlModel.
-	ShorturlModel interface {
-		shorturlModel
+	// PlatformModel is an interface to be customized, add more methods here,
+	// and implement the added methods in customPlatformModel.
+	PlatformModel interface {
+		platformModel
 	}
 
-	customShorturlModel struct {
-		*defaultShorturlModel
+	customPlatformModel struct {
+		*defaultPlatformModel
 	}
 )
 
-// NewShorturlModel returns a model for the database table.
-func NewShorturlModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) ShorturlModel {
-	return &customShorturlModel{
-		defaultShorturlModel: newShorturlModel(conn, c, opts...),
+// NewPlatformModel returns a model for the database table.
+func NewPlatformModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) PlatformModel {
+	return &customPlatformModel{
+		defaultPlatformModel: newPlatformModel(conn, c, opts...),
 	}
 }

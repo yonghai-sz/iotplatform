@@ -14,13 +14,13 @@ services:
       - "9001:9001"
       - "2346:2345"
 
-  shorturl-api:
+  platform-api:
     build:
       context: ../../
       dockerfile: services/api/Dockerfile
       target: debug
-    image: debug-shorturl-api-image:latest
-    container_name: debug-shorturl-api-container
+    image: debug-platform-api-image:latest
+    container_name: debug-platform-api-container
     cap_add:
       - SYS_PTRACE
     security_opt:

@@ -40,30 +40,30 @@ jobs:
         run: |
           set -euo pipefail
 
-          shorturl_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-shorturl-api:sha-${{ github.sha }}"
+          platform_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-platform-api:sha-${{ github.sha }}"
           transform_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:sha-${{ github.sha }}"
           mqtt_auth_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:sha-${{ github.sha }}"
 
-          shorturl_tags="$shorturl_sha"
+          platform_tags="$platform_sha"
           transform_tags="$transform_sha"
           mqtt_auth_tags="$mqtt_auth_sha"
 
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            shorturl_tags="${shorturl_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-shorturl-api:latest"
+            platform_tags="${platform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-platform-api:latest"
             transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:latest"
             mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:latest"
           fi
 
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
             tag="${GITHUB_REF#refs/tags/}"
-            shorturl_tags="${shorturl_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-shorturl-api:${tag}"
+            platform_tags="${platform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-platform-api:${tag}"
             transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:${tag}"
             mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:${tag}"
           fi
 
           {
-            echo "shorturl_tags<<EOF"
-            echo "${shorturl_tags}"
+            echo "platform_tags<<EOF"
+            echo "${platform_tags}"
             echo "EOF"
             echo "transform_tags<<EOF"
             echo "${transform_tags}"
@@ -73,7 +73,7 @@ jobs:
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Build & push shorturl-api (linux/amd64)
+      - name: Build & push platform-api (linux/amd64)
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -81,7 +81,7 @@ jobs:
           target: runtime
           platforms: linux/amd64
           push: true
-          tags: ${{ steps.meta.outputs.shorturl_tags }}
+          tags: ${{ steps.meta.outputs.platform_tags }}
 
       - name: Build & push transform-rpc (linux/amd64)
         uses: docker/build-push-action@v6

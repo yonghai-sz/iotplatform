@@ -19,11 +19,11 @@ func TestShortenLogic_Shorten(t *testing.T) {
 
 	// Build mock models and svc context
 	ctl := gomock.NewController(t)
-	shortModel := model.NewMockShorturlModel(ctl)
+	shortModel := model.NewMockPlatformModel(ctl)
 	svcCtx := &svc.ServiceContext{
 		Model: shortModel,
 	}
-	// build shorturl logic
+	// build platform logic
 	logic := NewShortenLogic(context.Background(), svcCtx)
 
 	// Failed to simulate model insert

@@ -2,6 +2,6 @@
 
 
 
-`mockgen -destination ./shorturlmodel_mock.go -package model . ShorturlModel`  
-`mockgen -destination shorturlmodel_mock.go -package model shorturlmodel_gen.go ShorturlModel`
+`mockgen -destination ./platformmodel_mock.go -package model . PlatformModel`  
+`mockgen -destination platformmodel_mock.go -package model platformmodel_gen.go PlatformModel`
 

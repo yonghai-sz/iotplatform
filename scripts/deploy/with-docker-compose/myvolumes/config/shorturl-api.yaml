@@ -1,4 +1,4 @@
-Name: shorturl-api
+Name: platform-api
 Host: 0.0.0.0
 Port: 8080
 PublicFiles: /app/backend-data/public

@@ -19,7 +19,7 @@ func TestExpandLogic_Expand(t *testing.T) {
 
 	// Build mock models and svc context
 	ctl := gomock.NewController(t)
-	shortModel := model.NewMockShorturlModel(ctl)
+	shortModel := model.NewMockPlatformModel(ctl)
 	svcCtx := &svc.ServiceContext{
 		Model: shortModel,
 	}
@@ -36,7 +36,7 @@ func TestExpandLogic_Expand(t *testing.T) {
 	// Simulate model FindOne success
 	shortModel.EXPECT().FindOne(gomock.Any(), gomock.Any()).
 		Return(
-			&model.Shorturl{
+			&model.Platform{
 				Shorten: "testShorten",
 				Url:     "testUrl",
 			},

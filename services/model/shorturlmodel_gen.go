@@ -18,54 +18,54 @@ import (
 )
 
 var (
-	shorturlFieldNames          = builder.RawFieldNames(&Shorturl{})
-	shorturlRows                = strings.Join(shorturlFieldNames, ",")
-	shorturlRowsExpectAutoSet   = strings.Join(stringx.Remove(shorturlFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
-	shorturlRowsWithPlaceHolder = strings.Join(stringx.Remove(shorturlFieldNames, "`shorten`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
+	platformFieldNames          = builder.RawFieldNames(&Platform{})
+	platformRows                = strings.Join(platformFieldNames, ",")
+	platformRowsExpectAutoSet   = strings.Join(stringx.Remove(platformFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
+	platformRowsWithPlaceHolder = strings.Join(stringx.Remove(platformFieldNames, "`shorten`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
 
-	cacheShorturlShortenPrefix = "cache:shorturl:shorten:"
+	cachePlatformShortenPrefix = "cache:platform:shorten:"
 )
 
 type (
-	shorturlModel interface {
-		Insert(ctx context.Context, data *Shorturl) (sql.Result, error)
-		FindOne(ctx context.Context, shorten string) (*Shorturl, error)
-		Update(ctx context.Context, data *Shorturl) error
+	platformModel interface {
+		Insert(ctx context.Context, data *Platform) (sql.Result, error)
+		FindOne(ctx context.Context, shorten string) (*Platform, error)
+		Update(ctx context.Context, data *Platform) error
 		Delete(ctx context.Context, shorten string) error
 	}
 
-	defaultShorturlModel struct {
+	defaultPlatformModel struct {
 		sqlc.CachedConn
 		table string
 	}
 
-	Shorturl struct {
+	Platform struct {
 		Shorten string `db:"shorten"` // shorten key
 		Url     string `db:"url"`     // original url
 	}
 )
 
-func newShorturlModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) *defaultShorturlModel {
-	return &defaultShorturlModel{
+func newPlatformModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) *defaultPlatformModel {
+	return &defaultPlatformModel{
 		CachedConn: sqlc.NewConn(conn, c, opts...),
-		table:      "`shorturl`",
+		table:      "`platform`",
 	}
 }
 
-func (m *defaultShorturlModel) Delete(ctx context.Context, shorten string) error {
-	shorturlShortenKey := fmt.Sprintf("%s%v", cacheShorturlShortenPrefix, shorten)
+func (m *defaultPlatformModel) Delete(ctx context.Context, shorten string) error {
+	platformShortenKey := fmt.Sprintf("%s%v", cachePlatformShortenPrefix, shorten)
 	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("delete from %s where `shorten` = ?", m.table)
 		return conn.ExecCtx(ctx, query, shorten)
-	}, shorturlShortenKey)
+	}, platformShortenKey)
 	return err
 }
 
-func (m *defaultShorturlModel) FindOne(ctx context.Context, shorten string) (*Shorturl, error) {
-	shorturlShortenKey := fmt.Sprintf("%s%v", cacheShorturlShortenPrefix, shorten)
-	var resp Shorturl
-	err := m.QueryRowCtx(ctx, &resp, shorturlShortenKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
-		query := fmt.Sprintf("select %s from %s where `shorten` = ? limit 1", shorturlRows, m.table)
+func (m *defaultPlatformModel) FindOne(ctx context.Context, shorten string) (*Platform, error) {
+	platformShortenKey := fmt.Sprintf("%s%v", cachePlatformShortenPrefix, shorten)
+	var resp Platform
+	err := m.QueryRowCtx(ctx, &resp, platformShortenKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
+		query := fmt.Sprintf("select %s from %s where `shorten` = ? limit 1", platformRows, m.table)
 		return conn.QueryRowCtx(ctx, v, query, shorten)
 	})
 	switch err {
@@ -78,33 +78,33 @@ func (m *defaultShorturlModel) FindOne(ctx context.Context, shorten string) (*Sh
 	}
 }
 
-func (m *defaultShorturlModel) Insert(ctx context.Context, data *Shorturl) (sql.Result, error) {
-	shorturlShortenKey := fmt.Sprintf("%s%v", cacheShorturlShortenPrefix, data.Shorten)
+func (m *defaultPlatformModel) Insert(ctx context.Context, data *Platform) (sql.Result, error) {
+	platformShortenKey := fmt.Sprintf("%s%v", cachePlatformShortenPrefix, data.Shorten)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?)", m.table, shorturlRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?)", m.table, platformRowsExpectAutoSet)
 		return conn.ExecCtx(ctx, query, data.Shorten, data.Url)
-	}, shorturlShortenKey)
+	}, platformShortenKey)
 	return ret, err
 }
 
-func (m *defaultShorturlModel) Update(ctx context.Context, data *Shorturl) error {
-	shorturlShortenKey := fmt.Sprintf("%s%v", cacheShorturlShortenPrefix, data.Shorten)
+func (m *defaultPlatformModel) Update(ctx context.Context, data *Platform) error {
+	platformShortenKey := fmt.Sprintf("%s%v", cachePlatformShortenPrefix, data.Shorten)
 	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("update %s set %s where `shorten` = ?", m.table, shorturlRowsWithPlaceHolder)
+		query := fmt.Sprintf("update %s set %s where `shorten` = ?", m.table, platformRowsWithPlaceHolder)
 		return conn.ExecCtx(ctx, query, data.Url, data.Shorten)
-	}, shorturlShortenKey)
+	}, platformShortenKey)
 	return err
 }
 
-func (m *defaultShorturlModel) formatPrimary(primary any) string {
-	return fmt.Sprintf("%s%v", cacheShorturlShortenPrefix, primary)
+func (m *defaultPlatformModel) formatPrimary(primary any) string {
+	return fmt.Sprintf("%s%v", cachePlatformShortenPrefix, primary)
 }
 
-func (m *defaultShorturlModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
-	query := fmt.Sprintf("select %s from %s where `shorten` = ? limit 1", shorturlRows, m.table)
+func (m *defaultPlatformModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
+	query := fmt.Sprintf("select %s from %s where `shorten` = ? limit 1", platformRows, m.table)
 	return conn.QueryRowCtx(ctx, v, query, primary)
 }
 
-func (m *defaultShorturlModel) tableName() string {
+func (m *defaultPlatformModel) tableName() string {
 	return m.table
 }

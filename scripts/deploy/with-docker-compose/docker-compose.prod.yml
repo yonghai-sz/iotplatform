@@ -121,18 +121,18 @@ services:
       - backend-data:/app/backend-data 
     entrypoint: ["./transform-rpc", "-f", "etc/transform.yaml"]
 
-  shorturl-api:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-shorturl-api:${TAG:-latest}
-    container_name: my-shorturl-api-container
+  platform-api:
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-platform-api:${TAG:-latest}
+    container_name: my-platform-api-container
     depends_on:
       transform-rpc:
         condition: service_started
     ports:
-      - "${SHORTURL_API_PORT:-8080}:8080"
+      - "${PLATFORM_API_PORT:-8080}:8080"
     volumes:
-      - ./myvolumes/config/shorturl-api.yaml:/app/etc/shorturl-api.yaml:ro
+      - ./myvolumes/config/platform-api.yaml:/app/etc/platform-api.yaml:ro
       - backend-data:/app/backend-data 
-    entrypoint: ["./shorturl-api", "-f", "etc/shorturl-api.yaml"]
+    entrypoint: ["./platform-api", "-f", "etc/platform-api.yaml"]
 
 volumes:
   mysql-data:

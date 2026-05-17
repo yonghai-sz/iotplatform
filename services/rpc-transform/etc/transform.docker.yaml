@@ -9,6 +9,6 @@ Etcd:
   - etcd:2379
   Key: transform.rpc
 DataSource: root:zzz888@tcp(mysql:3306)/myexampledb
-Table: shorturl
+Table: platform
 Cache:
   - Host: redis:6379

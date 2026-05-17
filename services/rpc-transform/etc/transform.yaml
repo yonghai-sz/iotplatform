@@ -9,6 +9,6 @@ Etcd:
   - 127.0.0.1:2379
   Key: transform.rpc
 DataSource: root:zzz888@tcp(localhost:3307)/myexampledb
-Table: shorturl
+Table: platform
 Cache:
   - Host: localhost:6379

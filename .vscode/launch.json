@@ -2,13 +2,13 @@
   "version": "0.2.0",
   "compounds": [
     {
-      "name": "Attach: all (shorturl-api + transform-rpc)",
-      "configurations": ["Attach: shorturl-api (Delve)", "Attach: transform-rpc (Delve)"]
+      "name": "Attach: all (platform-api + transform-rpc)",
+      "configurations": ["Attach: platform-api (Delve)", "Attach: transform-rpc (Delve)"]
     }
   ],
   "configurations": [
     {
-      "name": "Attach: shorturl-api (Delve)",
+      "name": "Attach: platform-api (Delve)",
       "type": "go",
       "request": "attach",
       "mode": "remote",

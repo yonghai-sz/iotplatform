@@ -60,7 +60,7 @@ bash scripts/dev/debug.sh
 
 Then attach your Go debugger to:
 
-- `shorturl-api`: `localhost:2345`
+- `platform-api`: `localhost:2345`
 - `transform-rpc`: `localhost:2346`
 
 ## Deploy

@@ -17,7 +17,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
-func newMockShorturlModel(t *testing.T) (*defaultShorturlModel, sqlmock.Sqlmock, *miniredis.Miniredis) {
+func newMockPlatformModel(t *testing.T) (*defaultPlatformModel, sqlmock.Sqlmock, *miniredis.Miniredis) {
 	db, mockDb, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
@@ -25,17 +25,17 @@ func newMockShorturlModel(t *testing.T) (*defaultShorturlModel, sqlmock.Sqlmock,
 
 	rds := miniredis.RunT(t)
 
-	return &defaultShorturlModel{
+	return &defaultPlatformModel{
 		CachedConn: sqlc.NewNodeConn(sqlx.NewSqlConnFromDB(db), redis.New(rds.Addr())),
-		table:      "`shorturl`",
+		table:      "`platform`",
 	}, mockDb, rds
 }
 
-func TestDefaultShorturlModel_Insert(t *testing.T) {
+func TestDefaultPlatformModel_Insert(t *testing.T) {
 	ast := assert.New(t)
 
 	// build model, mock db and mock redis
-	model, mock, _ := newMockShorturlModel(t)
+	model, mock, _ := newMockPlatformModel(t)
 
 	// mock test case
 	mock.ExpectExec(fmt.Sprintf("insert into %s", model.table)).
@@ -47,24 +47,24 @@ func TestDefaultShorturlModel_Insert(t *testing.T) {
 
 	ctx := context.Background()
 
-	_, err := model.Insert(ctx, &Shorturl{
+	_, err := model.Insert(ctx, &Platform{
 		Shorten: "123",
 		Url:     "123",
 	})
 	ast.NotNil(err)
 
-	_, err = model.Insert(ctx, &Shorturl{
+	_, err = model.Insert(ctx, &Platform{
 		Shorten: "345",
 		Url:     "345",
 	})
 	ast.Nil(err)
 }
 
-func TestDefaultShorturlModel_Update(t *testing.T) {
+func TestDefaultPlatformModel_Update(t *testing.T) {
 	ast := assert.New(t)
 
 	// build model, mock db and mock redis
-	model, mock, _ := newMockShorturlModel(t)
+	model, mock, _ := newMockPlatformModel(t)
 
 	// mock test fail case
 	mock.ExpectExec(fmt.Sprintf("update %s", model.table)).
@@ -76,24 +76,24 @@ func TestDefaultShorturlModel_Update(t *testing.T) {
 
 	ctx := context.Background()
 
-	err := model.Update(ctx, &Shorturl{
+	err := model.Update(ctx, &Platform{
 		Shorten: "123",
 		Url:     "123",
 	})
 	ast.NotNil(err)
 
-	err = model.Update(ctx, &Shorturl{
+	err = model.Update(ctx, &Platform{
 		Shorten: "123",
 		Url:     "123",
 	})
 	ast.Nil(err)
 }
 
-func TestDefaultShorturlModel_Delete(t *testing.T) {
+func TestDefaultPlatformModel_Delete(t *testing.T) {
 	ast := assert.New(t)
 
 	// build model, mock db and mock redis
-	model, mock, _ := newMockShorturlModel(t)
+	model, mock, _ := newMockPlatformModel(t)
 
 	// mock test fail case
 	mock.ExpectExec(fmt.Sprintf("delete from  %s", model.table)).
@@ -112,11 +112,11 @@ func TestDefaultShorturlModel_Delete(t *testing.T) {
 	ast.Nil(err)
 }
 
-func TestDefaultShorturlModel_FindOne(t *testing.T) {
+func TestDefaultPlatformModel_FindOne(t *testing.T) {
 	ast := assert.New(t)
 
 	// build model, mock db and mock redis
-	model, mock, rds := newMockShorturlModel(t)
+	model, mock, rds := newMockPlatformModel(t)
 
 	ctx := context.Background()
 
@@ -135,18 +135,18 @@ func TestDefaultShorturlModel_FindOne(t *testing.T) {
 
 	ret, err := model.FindOne(ctx, "111")
 	ast.Nil(err)
-	ast.Equal(ret, &Shorturl{
+	ast.Equal(ret, &Platform{
 		Shorten: "111",
 		Url:     "222",
 	})
 
 	// mock cache data
-	su := &Shorturl{
+	su := &Platform{
 		Shorten: "123",
 		Url:     "234",
 	}
 	data, _ := jsonx.Marshal(su)
-	rds.Set(fmt.Sprintf("%s%v", cacheShorturlShortenPrefix, su.Shorten), string(data))
+	rds.Set(fmt.Sprintf("%s%v", cachePlatformShortenPrefix, su.Shorten), string(data))
 
 	ret, err = model.FindOne(ctx, su.Shorten)
 	ast.Nil(err)

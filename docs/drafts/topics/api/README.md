@@ -1,10 +1,10 @@
 
-`goctl api -o shorturl.api`
+`goctl api -o platform.api`
 
 `goctl api go -api api-dsl/main.api -dir .`  
 `goctl api go -api internal.api -dir .`
 
-`goctl api swagger --api api/shorturl.api --dir api --filename shorturl`
+`goctl api swagger --api api/platform.api --dir api --filename platform`
 
 
 `goctl api validate -api <file>.api`
@@ -31,5 +31,15 @@
 
 ```text
 Generate code from the userservice.api file in ./userservice
+
+Create a user management API with CRUD operations
+
+Add rate limiting and circuit breaker to my API
+
+Create a user management API with authentication
+
+Create a user management REST API with CRUD operations
 ```
 
+# List API routes
+`goctl api doc -dir .`  

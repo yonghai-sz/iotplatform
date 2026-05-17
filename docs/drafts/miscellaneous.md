@@ -1,13 +1,5 @@
 
 
-When working on your **temporary** branch, you can:  
-`git push --force-with-lease`  
-
-
-
-
-
-
 `git submodule update --remote .cursorrules`  
 `git submodule update --remote .github/ai-context`  
 
@@ -46,3 +38,15 @@ test the API Gateway service
 
 
 `docker build -f services/internal-api/Dockerfile --target runtime -t <namespace>/<repo>-internal-api:<tag> .`
+
+```text
+Why am I getting "http: named cookie not present" error?
+
+Review my handler code for go-zero anti-patterns
+```
+
+
+
+
+# Check project file structure
+`find . -name "*.api" -o -name "*.proto" -o -name "*.go" | head -50`  

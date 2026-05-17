@@ -18,7 +18,7 @@ type (
 	}
 )
 
-service shorturl-api {
+service platform-api {
 	@handler ShortenHandler
 	get /shorten (ShortenReq) returns (ShortenResp)
 
