@@ -30,6 +30,8 @@
 
 
 ```text
+Help me create a user.api file for a user management service
+
 Generate code from the userservice.api file in ./userservice
 
 Create a user management API with CRUD operations
@@ -39,6 +41,10 @@ Add rate limiting and circuit breaker to my API
 Create a user management API with authentication
 
 Create a user management REST API with CRUD operations
+
+Help me implement the GetUser logic following go-zero patterns
+
+Help me add JWT authentication middleware to my go-zero API
 ```
 
 # List API routes

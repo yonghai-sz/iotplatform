@@ -20,4 +20,8 @@
 
 ```text
 Create an RPC service called "authservice" with methods Login and Verify
+
+Help me add the user model to ServiceContext
+
+
 ```
