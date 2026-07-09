@@ -1,0 +1,6 @@
+Name: tcp-server
+Mode: dev
+Log:
+  Mode: console
+  Level: debug
+ListenOn: 0.0.0.0:7611

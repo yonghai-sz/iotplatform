@@ -116,6 +116,16 @@ services:
       emqx:
         condition: service_healthy
 
+  tcp-server:
+    build:
+      context: ../../
+      dockerfile: services/tcp-server/Dockerfile
+      target: runtime
+    image: tcp-server-image:latest
+    container_name: dev-tcp-server-container
+    ports:
+      - "7611:7611"
+
   transform-rpc:
     build:
       context: ../../

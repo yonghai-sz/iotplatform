@@ -1,0 +1,5 @@
+Name: tcp-server
+Mode: pro
+Log:
+  Mode: console
+ListenOn: 0.0.0.0:7611

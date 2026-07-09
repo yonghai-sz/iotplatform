@@ -1,4 +1,19 @@
 services:
+  tcp-server:
+    build:
+      context: ../../
+      dockerfile: services/tcp-server/Dockerfile
+      target: debug
+    image: debug-tcp-server-image:latest
+    container_name: debug-tcp-server-container
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "7611:7611"
+      - "2348:2348"
+
   transform-rpc:
     build:
       context: ../../

@@ -62,6 +62,7 @@ Then attach your Go debugger to:
 
 - `platform-api`: `localhost:2345`
 - `transform-rpc`: `localhost:2346`
+- `tcp-server`: `localhost:2348`
 
 ## Deploy
 

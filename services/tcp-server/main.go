@@ -1,35 +1,35 @@
 package main
 
 import (
-	"os"
+	"flag"
+	"fmt"
 
+	"iotplatform/services/tcp-server/internal/config"
 	"iotplatform/services/tcp-server/internal/server"
+
+	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/proc"
 )
 
-type serverConf struct {
-	Name string    `yaml:"name"`
-	Port *servPort `yaml:"port"`
-}
-
-type servPort struct {
-	TCPPort string `yaml:"tcpPort"`
-}
-
-type Config struct {
-	Server *serverConf `yaml:"server"`
-}
+var configFile = flag.String("f", "etc/tcp-server.yaml", "the config file")
 
 func main() {
+	flag.Parse()
 
-	cfg := &Config{}
+	var c config.Config
+	conf.MustLoad(*configFile, &c)
+	c.MustSetUp()
 
 	serv := server.NewTCPServer()
-	addr := ":" + cfg.Server.Port.TCPPort
-	err := serv.Listen(addr)
-	if err != nil {
-		os.Exit(1)
+	if err := serv.Listen(c.ListenOn); err != nil {
+		logx.Must(err)
 	}
-	go serv.Start()
 
-	select {}
+	proc.AddShutdownListener(func() { serv.Stop() })
+
+	go serv.Start()
+	fmt.Printf("Starting tcp server at %s...\n", c.ListenOn)
+
+	<-proc.Done()
 }

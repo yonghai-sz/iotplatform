@@ -1,6 +1,6 @@
-FROM golang:1.24 AS builder
-WORKDIR /src
+FROM golang:1.25 AS builder
 ENV GOPROXY=https://goproxy.cn,direct
+WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
@@ -12,9 +12,14 @@ COPY --from=builder /out/mqtt-subscriber ./mqtt-subscriber
 COPY services/mqtt-subscriber/etc ./etc
 ENTRYPOINT ["./mqtt-subscriber", "-f", "etc/mqtt-subscriber.docker.yaml"]
 
-FROM golang:1.24 AS dlv
-WORKDIR /src
+
+
+
+
+
+FROM golang:1.25 AS dlv
 ENV GOPROXY=https://goproxy.cn,direct
+WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
@@ -22,7 +27,7 @@ RUN go install github.com/go-delve/delve/cmd/dlv@latest
 FROM builder AS debug-builder
 RUN CGO_ENABLED=0 go build -gcflags="all=-N -l" -o /out/mqtt-subscriber ./services/mqtt-subscriber
 
-FROM golang:1.24 AS debug
+FROM golang:1.25 AS debug
 WORKDIR /app
 COPY --from=debug-builder /out/mqtt-subscriber ./mqtt-subscriber
 COPY --from=dlv /go/bin/dlv /usr/local/bin/dlv
