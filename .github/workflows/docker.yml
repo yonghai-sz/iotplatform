@@ -44,17 +44,20 @@ jobs:
           transform_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:sha-${{ github.sha }}"
           mqtt_auth_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:sha-${{ github.sha }}"
           tcp_server_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-tcp-server:sha-${{ github.sha }}"
+          mqtt_subscriber_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-subscriber:sha-${{ github.sha }}"
 
           platform_tags="$platform_sha"
           transform_tags="$transform_sha"
           mqtt_auth_tags="$mqtt_auth_sha"
           tcp_server_tags="$tcp_server_sha"
+          mqtt_subscriber_tags="$mqtt_subscriber_sha"
 
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
             platform_tags="${platform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-platform-api:latest"
             transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:latest"
             mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:latest"
             tcp_server_tags="${tcp_server_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-tcp-server:latest"
+            mqtt_subscriber_tags="${mqtt_subscriber_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-subscriber:latest"
           fi
 
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
@@ -63,6 +66,7 @@ jobs:
             transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:${tag}"
             mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:${tag}"
             tcp_server_tags="${tcp_server_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-tcp-server:${tag}"
+            mqtt_subscriber_tags="${mqtt_subscriber_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-subscriber:${tag}"
           fi
 
           {
@@ -77,6 +81,9 @@ jobs:
             echo "EOF"
             echo "tcp_server_tags<<EOF"
             echo "${tcp_server_tags}"
+            echo "EOF"
+            echo "mqtt_subscriber_tags<<EOF"
+            echo "${mqtt_subscriber_tags}"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
@@ -119,4 +126,14 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tcp_server_tags }}
+
+      - name: Build & push mqtt-subscriber (linux/amd64)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: services/mqtt-subscriber/Dockerfile
+          target: runtime
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.mqtt_subscriber_tags }}
 

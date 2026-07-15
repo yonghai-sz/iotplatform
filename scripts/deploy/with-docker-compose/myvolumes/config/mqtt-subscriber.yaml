@@ -1,0 +1,17 @@
+Name: mqtt-subscriber
+Mode: pro
+Log:
+  Mode: console
+  Level: info
+Mqtt:
+  Broker: tcp://emqx:1883
+  ClientID: mqtt-subscriber-prod
+  Username: "admin-subscriber"
+  Password: "123456"
+  ConnectTimeout: 25s
+  DisconnectMs: 250
+  Subscriptions:
+    - Topic: "example_up/#"
+      Qos: 0
+    - Topic: "onlytest"
+      Qos: 0

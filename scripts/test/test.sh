@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-docker run \
-  --rm \
+docker run --rm \
   -t \
-  -v "$(pwd):/src" \
   -e GOPROXY=https://goproxy.cn,direct \
+  -v "$(pwd):/src" \
   -w /src \
-  golang:1.24 \
+  golang:1.25 \
   bash -c 'go test ./...'

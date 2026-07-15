@@ -104,6 +104,16 @@ services:
       timeout: 5s
       retries: 30
 
+  mqtt-subscriber:
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-mqtt-subscriber:${TAG:-latest}
+    container_name: my-mqtt-subscriber-container
+    depends_on:
+      emqx:
+        condition: service_healthy
+    volumes:
+      - ./myvolumes/config/mqtt-subscriber.yaml:/app/etc/mqtt-subscriber.yaml:ro
+    entrypoint: ["./mqtt-subscriber", "-f", "etc/mqtt-subscriber.yaml"]
+
   transform-rpc:
     image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-transform-rpc:${TAG:-latest}
     container_name: my-transform-rpc-container

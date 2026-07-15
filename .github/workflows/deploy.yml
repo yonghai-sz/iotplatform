@@ -56,7 +56,9 @@ jobs:
 
           port="${DEPLOY_PORT:-22}"
 
-          ssh -p "${port}" -o StrictHostKeyChecking=no "${DEPLOY_USER}@${DEPLOY_HOST}" \
+          ssh -p "${port}" \
+            -o StrictHostKeyChecking=no \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
             "export DEPLOY_PATH='${DEPLOY_PATH}'; export IMAGE_NAMESPACE='${IMAGE_NAMESPACE}'; export IMAGE_REPO='${IMAGE_REPO}'; export TAG='${TAG}'; bash -s" \
             < scripts/deploy/with-docker-compose/remote-deploy.sh
 
