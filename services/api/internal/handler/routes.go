@@ -6,6 +6,7 @@ package handler
 import (
 	"net/http"
 
+	tenant "iotplatform/services/api/internal/handler/tenant"
 	"iotplatform/services/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -25,5 +26,36 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: ShortenHandler(serverCtx),
 			},
 		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/tenants",
+				Handler: tenant.CreateTenantHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/tenants",
+				Handler: tenant.ListTenantHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/tenants/:id",
+				Handler: tenant.GetTenantHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/tenants/:id",
+				Handler: tenant.UpdateTenantHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/tenants/:id",
+				Handler: tenant.DeleteTenantHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/v1"),
 	)
 }

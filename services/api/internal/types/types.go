@@ -18,3 +18,41 @@ type ShortenReq struct {
 type ShortenResp struct {
 	Shorten string `json:"shorten"`
 }
+
+type CreateTenantReq struct {
+	TenantName string `json:"tenantName"`
+	Email      string `json:"email,optional"`
+}
+
+type CreateTenantResp struct {
+	Id uint64 `json:"id"`
+}
+
+type ListTenantReq struct {
+	PageIndex  int64  `form:"pageIndex,default=1"`
+	PageSize   int64  `form:"pageSize,default=20"`
+	TenantName string `form:"tenantName,optional"`
+}
+
+type ListTenantResp struct {
+	Total int64        `json:"total"`
+	List  []TenantInfo `json:"list"`
+}
+
+type TenantIdPathReq struct {
+	Id uint64 `path:"id"`
+}
+
+type TenantInfo struct {
+	Id         uint64 `json:"id"`
+	TenantName string `json:"tenantName"`
+	Email      string `json:"email"`
+	CreatedAt  string `json:"createdAt"`
+	UpdatedAt  string `json:"updatedAt"`
+}
+
+type UpdateTenantReq struct {
+	Id         uint64 `path:"id"`
+	TenantName string `json:"tenantName,optional"`
+	Email      string `json:"email,optional"`
+}

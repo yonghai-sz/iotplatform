@@ -19,5 +19,5 @@ cd "$DIR"
 # export IMAGE_NAMESPACE
 
 docker compose -f docker-compose.prod.yml down
-
+# -v
 

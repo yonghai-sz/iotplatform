@@ -12,4 +12,5 @@ type Config struct {
 	rest.RestConf
 	Transform   zrpc.RpcClientConf
 	PublicFiles string
+	DataSource  string
 }

@@ -2,6 +2,7 @@ Name: platform-api
 Host: 0.0.0.0
 Port: 8080
 PublicFiles: /app/backend-data/public
+DataSource: root:zzz888@tcp(mysql:3306)/myexampledb?parseTime=true&loc=Local
 Transform:
   # Target: direct:///transform-rpc:9001
   Etcd:
