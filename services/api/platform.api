@@ -26,19 +26,14 @@ type (
 	CreateTenantResp {
 		Id uint64 `json:"id"`
 	}
-
-
 	UpdateTenantReq {
 		Id         uint64 `path:"id"`
 		TenantName string `json:"tenantName,optional"`
 		Email      string `json:"email,optional"`
 	}
-	
 	TenantIdPathReq {
 		Id uint64 `path:"id"`
 	}
-
-
 	TenantInfo {
 		Id         uint64 `json:"id"`
 		TenantName string `json:"tenantName"`
@@ -55,7 +50,37 @@ type (
 		Total int64        `json:"total"`
 		List  []TenantInfo `json:"list"`
 	}
-
+	CreateProductReq {
+		ProductCode string `json:"productCode"`
+		ProductName string `json:"productName"`
+	}
+	CreateProductResp {
+		Id uint64 `json:"id"`
+	}
+	UpdateProductReq {
+		Id          uint64 `path:"id"`
+		ProductCode string `json:"productCode,optional"`
+		ProductName string `json:"productName,optional"`
+	}
+	ProductIdPathReq {
+		Id uint64 `path:"id"`
+	}
+	ProductInfo {
+		Id          uint64 `json:"id"`
+		ProductCode string `json:"productCode"`
+		ProductName string `json:"productName"`
+		CreatedAt   string `json:"createdAt"`
+		UpdatedAt   string `json:"updatedAt"`
+	}
+	ListProductReq {
+		PageIndex   int64  `form:"pageIndex,default=1"`
+		PageSize    int64  `form:"pageSize,default=20"`
+		ProductName string `form:"productName,optional"`
+	}
+	ListProductResp {
+		Total int64         `json:"total"`
+		List  []ProductInfo `json:"list"`
+	}
 )
 
 service platform-api {
@@ -85,5 +110,26 @@ service platform-api {
 
 	@handler DeleteTenantHandler
 	delete /tenants/:id (TenantIdPathReq)
+}
+
+@server (
+	prefix: /v1
+	group:  product
+)
+service platform-api {
+	@handler CreateProductHandler
+	post /products (CreateProductReq) returns (CreateProductResp)
+
+	@handler GetProductHandler
+	get /products/:id (ProductIdPathReq) returns (ProductInfo)
+
+	@handler ListProductHandler
+	get /products (ListProductReq) returns (ListProductResp)
+
+	@handler UpdateProductHandler
+	put /products/:id (UpdateProductReq) returns (ProductInfo)
+
+	@handler DeleteProductHandler
+	delete /products/:id (ProductIdPathReq)
 }
 

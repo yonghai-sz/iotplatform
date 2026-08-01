@@ -3,20 +3,13 @@
 
 package types
 
-type ExpandReq struct {
-	Shorten string `form:"shorten"`
+type CreateProductReq struct {
+	ProductCode string `json:"productCode"`
+	ProductName string `json:"productName"`
 }
 
-type ExpandResp struct {
-	Url string `json:"url"`
-}
-
-type ShortenReq struct {
-	Url string `form:"url"`
-}
-
-type ShortenResp struct {
-	Shorten string `json:"shorten"`
+type CreateProductResp struct {
+	Id uint64 `json:"id"`
 }
 
 type CreateTenantReq struct {
@@ -26,6 +19,25 @@ type CreateTenantReq struct {
 
 type CreateTenantResp struct {
 	Id uint64 `json:"id"`
+}
+
+type ExpandReq struct {
+	Shorten string `form:"shorten"`
+}
+
+type ExpandResp struct {
+	Url string `json:"url"`
+}
+
+type ListProductReq struct {
+	PageIndex   int64  `form:"pageIndex,default=1"`
+	PageSize    int64  `form:"pageSize,default=20"`
+	ProductName string `form:"productName,optional"`
+}
+
+type ListProductResp struct {
+	Total int64         `json:"total"`
+	List  []ProductInfo `json:"list"`
 }
 
 type ListTenantReq struct {
@@ -39,6 +51,26 @@ type ListTenantResp struct {
 	List  []TenantInfo `json:"list"`
 }
 
+type ProductIdPathReq struct {
+	Id uint64 `path:"id"`
+}
+
+type ProductInfo struct {
+	Id          uint64 `json:"id"`
+	ProductCode string `json:"productCode"`
+	ProductName string `json:"productName"`
+	CreatedAt   string `json:"createdAt"`
+	UpdatedAt   string `json:"updatedAt"`
+}
+
+type ShortenReq struct {
+	Url string `form:"url"`
+}
+
+type ShortenResp struct {
+	Shorten string `json:"shorten"`
+}
+
 type TenantIdPathReq struct {
 	Id uint64 `path:"id"`
 }
@@ -49,6 +81,12 @@ type TenantInfo struct {
 	Email      string `json:"email"`
 	CreatedAt  string `json:"createdAt"`
 	UpdatedAt  string `json:"updatedAt"`
+}
+
+type UpdateProductReq struct {
+	Id          uint64 `path:"id"`
+	ProductCode string `json:"productCode,optional"`
+	ProductName string `json:"productName,optional"`
 }
 
 type UpdateTenantReq struct {

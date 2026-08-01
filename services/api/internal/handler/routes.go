@@ -6,6 +6,7 @@ package handler
 import (
 	"net/http"
 
+	product "iotplatform/services/api/internal/handler/product"
 	tenant "iotplatform/services/api/internal/handler/tenant"
 	"iotplatform/services/api/internal/svc"
 
@@ -26,6 +27,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: ShortenHandler(serverCtx),
 			},
 		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/products",
+				Handler: product.CreateProductHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/products",
+				Handler: product.ListProductHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/products/:id",
+				Handler: product.GetProductHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/products/:id",
+				Handler: product.UpdateProductHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/products/:id",
+				Handler: product.DeleteProductHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/v1"),
 	)
 
 	server.AddRoutes(
