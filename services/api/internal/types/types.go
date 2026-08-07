@@ -12,6 +12,16 @@ type CreateProductResp struct {
 	Id uint64 `json:"id"`
 }
 
+type CreateRoleReq struct {
+	TenantId uint64 `json:"tenantId"`
+	RoleName string `json:"roleName"`
+	Enable   bool   `json:"enable,optional,default=true"`
+}
+
+type CreateRoleResp struct {
+	Id uint64 `json:"id"`
+}
+
 type CreateTenantReq struct {
 	TenantName string `json:"tenantName"`
 	Email      string `json:"email,optional"`
@@ -40,6 +50,18 @@ type ListProductResp struct {
 	List  []ProductInfo `json:"list"`
 }
 
+type ListRoleReq struct {
+	PageIndex int64  `form:"pageIndex,default=1"`
+	PageSize  int64  `form:"pageSize,default=20"`
+	TenantId  uint64 `form:"tenantId,optional"`
+	RoleName  string `form:"roleName,optional"`
+}
+
+type ListRoleResp struct {
+	Total int64      `json:"total"`
+	List  []RoleInfo `json:"list"`
+}
+
 type ListTenantReq struct {
 	PageIndex  int64  `form:"pageIndex,default=1"`
 	PageSize   int64  `form:"pageSize,default=20"`
@@ -61,6 +83,20 @@ type ProductInfo struct {
 	ProductName string `json:"productName"`
 	CreatedAt   string `json:"createdAt"`
 	UpdatedAt   string `json:"updatedAt"`
+}
+
+type RoleIdPathReq struct {
+	Id uint64 `path:"id"`
+}
+
+type RoleInfo struct {
+	Id        uint64 `json:"id"`
+	RoleKey   string `json:"roleKey"`
+	RoleName  string `json:"roleName"`
+	Enable    bool   `json:"enable"`
+	TenantId  uint64 `json:"tenantId"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
 }
 
 type ShortenReq struct {
@@ -87,6 +123,12 @@ type UpdateProductReq struct {
 	Id          uint64 `path:"id"`
 	ProductCode string `json:"productCode,optional"`
 	ProductName string `json:"productName,optional"`
+}
+
+type UpdateRoleReq struct {
+	Id       uint64 `path:"id"`
+	RoleName string `json:"roleName,optional"`
+	Enable   *bool  `json:"enable,optional"`
 }
 
 type UpdateTenantReq struct {

@@ -17,6 +17,7 @@ type ServiceContext struct {
 	Transformer  transformer.Transformer
 	TenantsModel model.TenantsModel
 	ProductModel model.ProductModel
+	RoleModel    model.RoleModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -26,5 +27,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Transformer:  transformer.NewTransformer(zrpc.MustNewClient(c.Transform)),
 		TenantsModel: model.NewTenantsModel(conn),
 		ProductModel: model.NewProductModel(conn),
+		RoleModel:    model.NewRoleModel(conn),
 	}
 }

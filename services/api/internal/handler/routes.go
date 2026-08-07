@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	product "iotplatform/services/api/internal/handler/product"
+	role "iotplatform/services/api/internal/handler/role"
 	tenant "iotplatform/services/api/internal/handler/tenant"
 	"iotplatform/services/api/internal/svc"
 
@@ -55,6 +56,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodDelete,
 				Path:    "/products/:id",
 				Handler: product.DeleteProductHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/roles",
+				Handler: role.CreateRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/roles",
+				Handler: role.ListRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/roles/:id",
+				Handler: role.GetRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/roles/:id",
+				Handler: role.UpdateRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/roles/:id",
+				Handler: role.DeleteRoleHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/v1"),
