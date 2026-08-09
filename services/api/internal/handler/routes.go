@@ -9,6 +9,7 @@ import (
 	product "iotplatform/services/api/internal/handler/product"
 	role "iotplatform/services/api/internal/handler/role"
 	tenant "iotplatform/services/api/internal/handler/tenant"
+	user "iotplatform/services/api/internal/handler/user"
 	"iotplatform/services/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -118,6 +119,42 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodDelete,
 				Path:    "/tenants/:id",
 				Handler: tenant.DeleteTenantHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/users",
+				Handler: user.CreateUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/users",
+				Handler: user.ListUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/users/:username",
+				Handler: user.GetUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/users/:username",
+				Handler: user.UpdateUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/users/:username",
+				Handler: user.DeleteUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/users/:username/password",
+				Handler: user.UpdateUserPasswordHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/v1"),

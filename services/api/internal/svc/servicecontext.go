@@ -18,6 +18,7 @@ type ServiceContext struct {
 	TenantsModel model.TenantsModel
 	ProductModel model.ProductModel
 	RoleModel    model.RoleModel
+	UserModel    model.UserModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -28,5 +29,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TenantsModel: model.NewTenantsModel(conn),
 		ProductModel: model.NewProductModel(conn),
 		RoleModel:    model.NewRoleModel(conn),
+		UserModel:    model.NewUserModel(conn),
 	}
 }

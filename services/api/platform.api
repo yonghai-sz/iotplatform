@@ -116,6 +116,47 @@ type (
 		Total int64      `json:"total"`
 		List  []RoleInfo `json:"list"`
 	}
+	CreateUserReq {
+		TenantId uint64 `json:"tenantId"`
+		Username string `json:"username"`
+		Password string `json:"password"`
+		RoleId   uint64 `json:"roleId"`
+		Enable   bool   `json:"enable,optional,default=true"`
+	}
+	CreateUserResp {
+		Id uint64 `json:"id"`
+	}
+	UpdateUserReq {
+		Username string `path:"username"`
+		RoleId   uint64 `json:"roleId,optional"`
+		Enable   *bool  `json:"enable,optional"`
+	}
+	UpdateUserPasswordReq {
+		Username string `path:"username"`
+		Password string `json:"password"`
+	}
+	UserUsernamePathReq {
+		Username string `path:"username"`
+	}
+	UserInfo {
+		Id        uint64 `json:"id"`
+		Username  string `json:"username"`
+		Enable    bool   `json:"enable"`
+		RoleId    uint64 `json:"roleId"`
+		TenantId  uint64 `json:"tenantId"`
+		CreatedAt string `json:"createdAt"`
+		UpdatedAt string `json:"updatedAt"`
+	}
+	ListUserReq {
+		PageIndex int64  `form:"pageIndex,default=1"`
+		PageSize  int64  `form:"pageSize,default=20"`
+		TenantId  uint64 `form:"tenantId,optional"`
+		Username  string `form:"username,optional"`
+	}
+	ListUserResp {
+		Total int64      `json:"total"`
+		List  []UserInfo `json:"list"`
+	}
 )
 
 service platform-api {
@@ -187,5 +228,29 @@ service platform-api {
 
 	@handler DeleteRoleHandler
 	delete /roles/:id (RoleIdPathReq)
+}
+
+@server (
+	prefix: /v1
+	group:  user
+)
+service platform-api {
+	@handler CreateUserHandler
+	post /users (CreateUserReq) returns (CreateUserResp)
+
+	@handler GetUserHandler
+	get /users/:username (UserUsernamePathReq) returns (UserInfo)
+
+	@handler ListUserHandler
+	get /users (ListUserReq) returns (ListUserResp)
+
+	@handler UpdateUserHandler
+	put /users/:username (UpdateUserReq) returns (UserInfo)
+
+	@handler UpdateUserPasswordHandler
+	put /users/:username/password (UpdateUserPasswordReq)
+
+	@handler DeleteUserHandler
+	delete /users/:username (UserUsernamePathReq)
 }
 
