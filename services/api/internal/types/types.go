@@ -97,6 +97,16 @@ type ListUserResp struct {
 	List  []UserInfo `json:"list"`
 }
 
+type LoginReq struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type LoginResp struct {
+	Username string `json:"username"`
+	Token    string `json:"token"`
+}
+
 type ProductIdPathReq struct {
 	Id uint64 `path:"id"`
 }

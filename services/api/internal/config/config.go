@@ -13,4 +13,8 @@ type Config struct {
 	Transform   zrpc.RpcClientConf
 	PublicFiles string
 	DataSource  string
+	Auth        struct {
+		AccessSecret string
+		AccessExpire int64
+	}
 }

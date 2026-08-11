@@ -1,0 +1,61 @@
+syntax = "v1"
+
+type (
+	CreateRoleReq {
+		TenantId uint64 `json:"tenantId"`
+		RoleName string `json:"roleName"`
+		Enable   bool   `json:"enable,optional,default=true"`
+	}
+	CreateRoleResp {
+		Id uint64 `json:"id"`
+	}
+	UpdateRoleReq {
+		Id       uint64 `path:"id"`
+		RoleName string `json:"roleName,optional"`
+		Enable   *bool  `json:"enable,optional"`
+	}
+	RoleIdPathReq {
+		Id uint64 `path:"id"`
+	}
+	RoleInfo {
+		Id        uint64 `json:"id"`
+		RoleKey   string `json:"roleKey"`
+		RoleName  string `json:"roleName"`
+		Enable    bool   `json:"enable"`
+		TenantId  uint64 `json:"tenantId"`
+		CreatedAt string `json:"createdAt"`
+		UpdatedAt string `json:"updatedAt"`
+	}
+	ListRoleReq {
+		PageIndex int64  `form:"pageIndex,default=1"`
+		PageSize  int64  `form:"pageSize,default=20"`
+		TenantId  uint64 `form:"tenantId,optional"`
+		RoleName  string `form:"roleName,optional"`
+	}
+	ListRoleResp {
+		Total int64      `json:"total"`
+		List  []RoleInfo `json:"list"`
+	}
+)
+
+@server (
+	prefix: /v1
+	group:  role
+)
+service platform-api {
+	@handler CreateRoleHandler
+	post /roles (CreateRoleReq) returns (CreateRoleResp)
+
+	@handler GetRoleHandler
+	get /roles/:id (RoleIdPathReq) returns (RoleInfo)
+
+	@handler ListRoleHandler
+	get /roles (ListRoleReq) returns (ListRoleResp)
+
+	@handler UpdateRoleHandler
+	put /roles/:id (UpdateRoleReq) returns (RoleInfo)
+
+	@handler DeleteRoleHandler
+	delete /roles/:id (RoleIdPathReq)
+}
+

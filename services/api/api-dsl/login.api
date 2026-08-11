@@ -1,0 +1,21 @@
+syntax = "v1"
+
+type (
+	LoginReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	LoginResp {
+		Username string `json:"username"`
+		Token    string `json:"token"`
+	}
+)
+
+@server (
+	group: login
+)
+service platform-api {
+	@handler LoginHandler
+	post /login (LoginReq) returns (LoginResp)
+}
+

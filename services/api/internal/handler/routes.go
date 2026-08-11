@@ -6,6 +6,7 @@ package handler
 import (
 	"net/http"
 
+	login "iotplatform/services/api/internal/handler/login"
 	product "iotplatform/services/api/internal/handler/product"
 	role "iotplatform/services/api/internal/handler/role"
 	tenant "iotplatform/services/api/internal/handler/tenant"
@@ -22,6 +23,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/expand",
 				Handler: ExpandHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/login",
+				Handler: login.LoginHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,

@@ -1,0 +1,57 @@
+syntax = "v1"
+
+type (
+	CreateProductReq {
+		ProductCode string `json:"productCode"`
+		ProductName string `json:"productName"`
+	}
+	CreateProductResp {
+		Id uint64 `json:"id"`
+	}
+	UpdateProductReq {
+		Id          uint64 `path:"id"`
+		ProductCode string `json:"productCode,optional"`
+		ProductName string `json:"productName,optional"`
+	}
+	ProductIdPathReq {
+		Id uint64 `path:"id"`
+	}
+	ProductInfo {
+		Id          uint64 `json:"id"`
+		ProductCode string `json:"productCode"`
+		ProductName string `json:"productName"`
+		CreatedAt   string `json:"createdAt"`
+		UpdatedAt   string `json:"updatedAt"`
+	}
+	ListProductReq {
+		PageIndex   int64  `form:"pageIndex,default=1"`
+		PageSize    int64  `form:"pageSize,default=20"`
+		ProductName string `form:"productName,optional"`
+	}
+	ListProductResp {
+		Total int64         `json:"total"`
+		List  []ProductInfo `json:"list"`
+	}
+)
+
+@server (
+	prefix: /v1
+	group:  product
+)
+service platform-api {
+	@handler CreateProductHandler
+	post /products (CreateProductReq) returns (CreateProductResp)
+
+	@handler GetProductHandler
+	get /products/:id (ProductIdPathReq) returns (ProductInfo)
+
+	@handler ListProductHandler
+	get /products (ListProductReq) returns (ListProductResp)
+
+	@handler UpdateProductHandler
+	put /products/:id (UpdateProductReq) returns (ProductInfo)
+
+	@handler DeleteProductHandler
+	delete /products/:id (ProductIdPathReq)
+}
+

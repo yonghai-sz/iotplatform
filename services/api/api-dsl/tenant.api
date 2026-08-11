@@ -1,0 +1,57 @@
+syntax = "v1"
+
+type (
+	CreateTenantReq {
+		TenantName string `json:"tenantName"`
+		Email      string `json:"email,optional"`
+	}
+	CreateTenantResp {
+		Id uint64 `json:"id"`
+	}
+	UpdateTenantReq {
+		Id         uint64 `path:"id"`
+		TenantName string `json:"tenantName,optional"`
+		Email      string `json:"email,optional"`
+	}
+	TenantIdPathReq {
+		Id uint64 `path:"id"`
+	}
+	TenantInfo {
+		Id         uint64 `json:"id"`
+		TenantName string `json:"tenantName"`
+		Email      string `json:"email"`
+		CreatedAt  string `json:"createdAt"`
+		UpdatedAt  string `json:"updatedAt"`
+	}
+	ListTenantReq {
+		PageIndex  int64  `form:"pageIndex,default=1"`
+		PageSize   int64  `form:"pageSize,default=20"`
+		TenantName string `form:"tenantName,optional"`
+	}
+	ListTenantResp {
+		Total int64        `json:"total"`
+		List  []TenantInfo `json:"list"`
+	}
+)
+
+@server (
+	prefix: /v1
+	group:  tenant
+)
+service platform-api {
+	@handler CreateTenantHandler
+	post /tenants (CreateTenantReq) returns (CreateTenantResp)
+
+	@handler GetTenantHandler
+	get /tenants/:id (TenantIdPathReq) returns (TenantInfo)
+
+	@handler ListTenantHandler
+	get /tenants (ListTenantReq) returns (ListTenantResp)
+
+	@handler UpdateTenantHandler
+	put /tenants/:id (UpdateTenantReq) returns (TenantInfo)
+
+	@handler DeleteTenantHandler
+	delete /tenants/:id (TenantIdPathReq)
+}
+
