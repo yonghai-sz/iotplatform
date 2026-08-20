@@ -38,131 +38,161 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/products",
-				Handler: product.CreateProductHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/products",
-				Handler: product.ListProductHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/products/:id",
-				Handler: product.GetProductHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/products/:id",
-				Handler: product.UpdateProductHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/products/:id",
-				Handler: product.DeleteProductHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Session},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/logout",
+					Handler: login.LogoutHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Session},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/products",
+					Handler: product.CreateProductHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/products",
+					Handler: product.ListProductHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/products/:id",
+					Handler: product.GetProductHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/products/:id",
+					Handler: product.UpdateProductHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/products/:id",
+					Handler: product.DeleteProductHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/v1"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/roles",
-				Handler: role.CreateRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/roles",
-				Handler: role.ListRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/roles/:id",
-				Handler: role.GetRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/roles/:id",
-				Handler: role.UpdateRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/roles/:id",
-				Handler: role.DeleteRoleHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Session},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/roles",
+					Handler: role.CreateRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/roles",
+					Handler: role.ListRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/roles/:id",
+					Handler: role.GetRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/roles/:id",
+					Handler: role.UpdateRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/roles/:id",
+					Handler: role.DeleteRoleHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/v1"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/tenants",
-				Handler: tenant.CreateTenantHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/tenants",
-				Handler: tenant.ListTenantHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/tenants/:id",
-				Handler: tenant.GetTenantHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/tenants/:id",
-				Handler: tenant.UpdateTenantHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/tenants/:id",
-				Handler: tenant.DeleteTenantHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Session},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/tenants",
+					Handler: tenant.CreateTenantHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/tenants",
+					Handler: tenant.ListTenantHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/tenants/:id",
+					Handler: tenant.GetTenantHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/tenants/:id",
+					Handler: tenant.UpdateTenantHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/tenants/:id",
+					Handler: tenant.DeleteTenantHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/v1"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/users",
-				Handler: user.CreateUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/users",
-				Handler: user.ListUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/users/:username",
-				Handler: user.GetUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/users/:username",
-				Handler: user.UpdateUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/users/:username",
-				Handler: user.DeleteUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/users/:username/password",
-				Handler: user.UpdateUserPasswordHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Session},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/users",
+					Handler: user.CreateUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/users",
+					Handler: user.ListUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/users/:username",
+					Handler: user.GetUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/users/:username",
+					Handler: user.UpdateUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/users/:username",
+					Handler: user.DeleteUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/users/:username/password",
+					Handler: user.UpdateUserPasswordHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/v1"),
 	)
 }

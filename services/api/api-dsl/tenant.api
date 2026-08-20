@@ -35,8 +35,10 @@ type (
 )
 
 @server (
-	prefix: /v1
-	group:  tenant
+	jwt:        Auth
+	middleware: Session
+	prefix:     /v1
+	group:      tenant
 )
 service platform-api {
 	@handler CreateTenantHandler

@@ -5,10 +5,14 @@ package svc
 
 import (
 	"iotplatform/services/api/internal/config"
+	"iotplatform/services/api/internal/middleware"
+	"iotplatform/services/api/internal/session"
 	"iotplatform/services/api/model"
 	"iotplatform/services/rpc-transform/transformer"
 
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
@@ -19,10 +23,13 @@ type ServiceContext struct {
 	ProductModel model.ProductModel
 	RoleModel    model.RoleModel
 	UserModel    model.UserModel
+	SessionStore *session.Store
+	Session      rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	conn := sqlx.NewMysql(c.DataSource)
+	store := session.NewStore(redis.MustNewRedis(c.Redis))
 	return &ServiceContext{
 		Config:       c,
 		Transformer:  transformer.NewTransformer(zrpc.MustNewClient(c.Transform)),
@@ -30,5 +37,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ProductModel: model.NewProductModel(conn),
 		RoleModel:    model.NewRoleModel(conn),
 		UserModel:    model.NewUserModel(conn),
+		SessionStore: store,
+		Session:      middleware.NewSessionMiddleware(store).Handle,
 	}
 }

@@ -6,18 +6,21 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/alicebob/miniredis/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/stretchr/testify/assert"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
 	"iotplatform/pkg/utils"
 	"iotplatform/services/api/internal/config"
+	"iotplatform/services/api/internal/session"
 	"iotplatform/services/api/internal/svc"
 	"iotplatform/services/api/internal/types"
 	"iotplatform/services/api/model"
 )
 
-func newLoginLogicWithMock(t *testing.T) (*LoginLogic, sqlmock.Sqlmock) {
+func newLoginLogicWithMock(t *testing.T) (*LoginLogic, sqlmock.Sqlmock, *session.Store) {
 	t.Helper()
 	db, mock, err := sqlmock.New()
 	if err != nil {
@@ -29,12 +32,14 @@ func newLoginLogicWithMock(t *testing.T) (*LoginLogic, sqlmock.Sqlmock) {
 	cfg := config.Config{}
 	cfg.Auth.AccessSecret = "test-secret"
 	cfg.Auth.AccessExpire = 3600
+	store := session.NewStore(redis.New(miniredis.RunT(t).Addr()))
 
 	return NewLoginLogic(context.Background(), &svc.ServiceContext{
-		Config:    cfg,
-		UserModel: model.NewUserModel(conn),
-		RoleModel: model.NewRoleModel(conn),
-	}), mock
+		Config:       cfg,
+		UserModel:    model.NewUserModel(conn),
+		RoleModel:    model.NewRoleModel(conn),
+		SessionStore: store,
+	}), mock, store
 }
 
 func TestLoginLogic_Login(t *testing.T) {
@@ -49,7 +54,7 @@ func TestLoginLogic_Login(t *testing.T) {
 
 	t.Run("success", func(t *testing.T) {
 		ast := assert.New(t)
-		l, mock := newLoginLogicWithMock(t)
+		l, mock, store := newLoginLogicWithMock(t)
 
 		mock.ExpectQuery("select .+ from `user` where `username` = \\? and `deleted_at` is null").
 			WithArgs(username).
@@ -74,11 +79,15 @@ func TestLoginLogic_Login(t *testing.T) {
 		ast.Equal(roleKey, claims["roleKey"])
 		ast.Equal(float64(8), claims["userId"])
 		ast.Equal(float64(1), claims["tenantId"])
+
+		matched, err := store.Match(context.Background(), username, resp.Token)
+		ast.NoError(err)
+		ast.True(matched)
 	})
 
 	t.Run("wrong password", func(t *testing.T) {
 		ast := assert.New(t)
-		l, mock := newLoginLogicWithMock(t)
+		l, mock, _ := newLoginLogicWithMock(t)
 
 		mock.ExpectQuery("select .+ from `user` where `username` = \\? and `deleted_at` is null").
 			WithArgs(username).
@@ -91,7 +100,7 @@ func TestLoginLogic_Login(t *testing.T) {
 
 	t.Run("user not found", func(t *testing.T) {
 		ast := assert.New(t)
-		l, mock := newLoginLogicWithMock(t)
+		l, mock, _ := newLoginLogicWithMock(t)
 
 		mock.ExpectQuery("select .+ from `user` where `username` = \\? and `deleted_at` is null").
 			WithArgs(username).
@@ -103,7 +112,7 @@ func TestLoginLogic_Login(t *testing.T) {
 
 	t.Run("account disabled", func(t *testing.T) {
 		ast := assert.New(t)
-		l, mock := newLoginLogicWithMock(t)
+		l, mock, _ := newLoginLogicWithMock(t)
 
 		mock.ExpectQuery("select .+ from `user` where `username` = \\? and `deleted_at` is null").
 			WithArgs(username).
@@ -116,7 +125,7 @@ func TestLoginLogic_Login(t *testing.T) {
 
 	t.Run("role disabled", func(t *testing.T) {
 		ast := assert.New(t)
-		l, mock := newLoginLogicWithMock(t)
+		l, mock, _ := newLoginLogicWithMock(t)
 
 		mock.ExpectQuery("select .+ from `user` where `username` = \\? and `deleted_at` is null").
 			WithArgs(username).

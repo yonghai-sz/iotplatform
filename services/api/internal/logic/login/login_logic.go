@@ -83,6 +83,10 @@ func (l *LoginLogic) Login(req *types.LoginReq) (*types.LoginResp, error) {
 		return nil, err
 	}
 
+	if err = l.svcCtx.SessionStore.Save(l.ctx, username, token, int(l.svcCtx.Config.Auth.AccessExpire)); err != nil {
+		return nil, err
+	}
+
 	return &types.LoginResp{
 		Username: username,
 		Token:    token,

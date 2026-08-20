@@ -35,8 +35,10 @@ type (
 )
 
 @server (
-	prefix: /v1
-	group:  product
+	jwt:        Auth
+	middleware: Session
+	prefix:     /v1
+	group:      product
 )
 service platform-api {
 	@handler CreateProductHandler

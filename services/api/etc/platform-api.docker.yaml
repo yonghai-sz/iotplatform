@@ -6,6 +6,9 @@ DataSource: root:zzz888@tcp(mysql:3306)/myexampledb?parseTime=true&loc=Local
 Auth:
   AccessSecret: JwtSignKey
   AccessExpire: 86400
+Redis:
+  Host: redis:6379
+  Type: node
 Transform:
   # Target: direct:///transform-rpc:9001
   Etcd:

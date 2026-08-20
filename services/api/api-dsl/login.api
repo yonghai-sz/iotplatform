@@ -19,3 +19,13 @@ service platform-api {
 	post /login (LoginReq) returns (LoginResp)
 }
 
+@server (
+	jwt:        Auth
+	middleware: Session
+	group:      login
+)
+service platform-api {
+	@handler LogoutHandler
+	post /logout
+}
+

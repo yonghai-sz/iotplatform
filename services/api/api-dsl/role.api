@@ -39,8 +39,10 @@ type (
 )
 
 @server (
-	prefix: /v1
-	group:  role
+	jwt:        Auth
+	middleware: Session
+	prefix:     /v1
+	group:      role
 )
 service platform-api {
 	@handler CreateRoleHandler

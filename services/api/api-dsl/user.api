@@ -45,8 +45,10 @@ type (
 )
 
 @server (
-	prefix: /v1
-	group:  user
+	jwt:        Auth
+	middleware: Session
+	prefix:     /v1
+	group:      user
 )
 service platform-api {
 	@handler CreateUserHandler
