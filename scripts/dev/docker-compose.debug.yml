@@ -32,7 +32,7 @@ services:
   platform-api:
     build:
       context: ../../
-      dockerfile: services/api/Dockerfile
+      dockerfile: services/platform-api/Dockerfile
       target: debug
     image: debug-platform-api-image:latest
     container_name: debug-platform-api-container

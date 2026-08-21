@@ -149,7 +149,7 @@ services:
   platform-api:
     build:
       context: ../../
-      dockerfile: services/api/Dockerfile
+      dockerfile: services/platform-api/Dockerfile
       target: runtime
     image: platform-api-image:latest
     container_name: dev-platform-api-container
