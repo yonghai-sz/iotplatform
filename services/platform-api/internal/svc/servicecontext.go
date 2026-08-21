@@ -17,27 +17,31 @@ import (
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	Transformer  transformer.Transformer
-	TenantsModel model.TenantsModel
-	ProductModel model.ProductModel
-	RoleModel    model.RoleModel
-	UserModel    model.UserModel
-	SessionStore *session.Store
-	Session      rest.Middleware
+	Config        config.Config
+	Transformer   transformer.Transformer
+	TenantsModel  model.TenantsModel
+	ProductModel  model.ProductModel
+	RoleModel     model.RoleModel
+	UserModel     model.UserModel
+	MenuModel     model.MenuModel
+	RoleMenuModel model.RoleMenuModel
+	SessionStore  *session.Store
+	Session       rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	conn := sqlx.NewMysql(c.DataSource)
 	store := session.NewStore(redis.MustNewRedis(c.Redis))
 	return &ServiceContext{
-		Config:       c,
-		Transformer:  transformer.NewTransformer(zrpc.MustNewClient(c.Transform)),
-		TenantsModel: model.NewTenantsModel(conn),
-		ProductModel: model.NewProductModel(conn),
-		RoleModel:    model.NewRoleModel(conn),
-		UserModel:    model.NewUserModel(conn),
-		SessionStore: store,
-		Session:      middleware.NewSessionMiddleware(store).Handle,
+		Config:        c,
+		Transformer:   transformer.NewTransformer(zrpc.MustNewClient(c.Transform)),
+		TenantsModel:  model.NewTenantsModel(conn),
+		ProductModel:  model.NewProductModel(conn),
+		RoleModel:     model.NewRoleModel(conn),
+		UserModel:     model.NewUserModel(conn),
+		MenuModel:     model.NewMenuModel(conn),
+		RoleMenuModel: model.NewRoleMenuModel(conn),
+		SessionStore:  store,
+		Session:       middleware.NewSessionMiddleware(store).Handle,
 	}
 }

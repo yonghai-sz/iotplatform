@@ -51,6 +51,10 @@ type ExpandResp struct {
 	Url string `json:"url"`
 }
 
+type GetMenuTreeResp struct {
+	List []MenuInfo `json:"list"`
+}
+
 type ListProductReq struct {
 	PageIndex   int64  `form:"pageIndex,default=1"`
 	PageSize    int64  `form:"pageSize,default=20"`
@@ -105,6 +109,15 @@ type LoginReq struct {
 type LoginResp struct {
 	Username string `json:"username"`
 	Token    string `json:"token"`
+}
+
+type MenuInfo struct {
+	Id       uint64     `json:"id"`
+	MenuKey  string     `json:"menuKey"`
+	Title    string     `json:"title"`
+	ParentId uint64     `json:"parentId"`
+	HasChild string     `json:"hasChild"`
+	Children []MenuInfo `json:"children,optional,omitempty"`
 }
 
 type ProductIdPathReq struct {

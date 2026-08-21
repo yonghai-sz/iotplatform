@@ -48,6 +48,12 @@ func UsernameFromContext(ctx context.Context) (string, bool) {
 	return s, ok && s != ""
 }
 
+func RoleKeyFromContext(ctx context.Context) (string, bool) {
+	v := ctx.Value("roleKey")
+	s, ok := v.(string)
+	return s, ok && s != ""
+}
+
 func BearerToken(r *http.Request) string {
 	value := r.Header.Get("Authorization")
 	if len(value) > 7 && strings.EqualFold(value[:7], "Bearer ") {

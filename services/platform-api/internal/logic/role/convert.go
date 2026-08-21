@@ -37,3 +37,13 @@ func boolToEnable(enable bool) string {
 func enableToBool(enable string) bool {
 	return enable != "Disable"
 }
+
+func toMenuInfo(m *model.Menu) types.MenuInfo {
+	return types.MenuInfo{
+		Id:       m.Id,
+		MenuKey:  m.MenuKey,
+		Title:    m.Title,
+		ParentId: m.ParentId,
+		HasChild: m.HasChild,
+	}
+}

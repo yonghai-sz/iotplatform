@@ -17,6 +17,7 @@ type (
 	// and implement the added methods in customRoleModel.
 	RoleModel interface {
 		roleModel
+		FindOneByRoleKey(ctx context.Context, roleKey string) (*Role, error)
 		FindPage(ctx context.Context, tenantId uint64, roleName string, pageIndex, pageSize int64) (int64, []*Role, error)
 		withSession(session sqlx.Session) RoleModel
 	}
@@ -85,6 +86,20 @@ func (m *customRoleModel) Delete(ctx context.Context, id uint64) error {
 		return ErrNotFound
 	}
 	return nil
+}
+
+func (m *customRoleModel) FindOneByRoleKey(ctx context.Context, roleKey string) (*Role, error) {
+	query := fmt.Sprintf("select %s from %s where `role_key` = ? and `deleted_at` is null limit 1", roleRows, m.table)
+	var resp Role
+	err := m.conn.QueryRowCtx(ctx, &resp, query, roleKey)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
 
 func (m *customRoleModel) FindPage(ctx context.Context, tenantId uint64, roleName string, pageIndex, pageSize int64) (int64, []*Role, error) {

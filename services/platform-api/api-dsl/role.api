@@ -36,6 +36,17 @@ type (
 		Total int64      `json:"total"`
 		List  []RoleInfo `json:"list"`
 	}
+	MenuInfo {
+		Id       uint64     `json:"id"`
+		MenuKey  string     `json:"menuKey"`
+		Title    string     `json:"title"`
+		ParentId uint64     `json:"parentId"`
+		HasChild string     `json:"hasChild"`
+		Children []MenuInfo `json:"children,optional,omitempty"`
+	}
+	GetMenuTreeResp {
+		List []MenuInfo `json:"list"`
+	}
 )
 
 @server (
@@ -59,5 +70,8 @@ service platform-api {
 
 	@handler DeleteRoleHandler
 	delete /roles/:id (RoleIdPathReq)
+
+	@handler GetMenuTreeHandler
+	get /menutree returns (GetMenuTreeResp)
 }
 

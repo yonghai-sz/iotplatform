@@ -25,14 +25,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: ExpandHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
-				Path:    "/login",
-				Handler: login.LoginHandler(serverCtx),
-			},
-			{
 				Method:  http.MethodGet,
 				Path:    "/shorten",
 				Handler: ShortenHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/login",
+				Handler: login.LoginHandler(serverCtx),
 			},
 		},
 	)
@@ -90,6 +95,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.Session},
 			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/menutree",
+					Handler: role.GetMenuTreeHandler(serverCtx),
+				},
 				{
 					Method:  http.MethodPost,
 					Path:    "/roles",
