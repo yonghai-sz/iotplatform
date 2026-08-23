@@ -1,7 +1,7 @@
 package model
 
 import (
-	"iotplatform/pkg/utils"
+	"iot-zero/pkg/utils"
 )
 
 type ResultCode uint8

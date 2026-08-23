@@ -3,7 +3,7 @@ package model
 import (
 	"strings"
 
-	"iotplatform/pkg/utils"
+	"iot-zero/pkg/utils"
 )
 
 type Msg0102 struct {

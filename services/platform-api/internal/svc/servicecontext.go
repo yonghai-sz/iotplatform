@@ -27,6 +27,7 @@ type ServiceContext struct {
 	RoleMenuModel model.RoleMenuModel
 	SessionStore  *session.Store
 	Session       rest.Middleware
+	SuperAdmin    rest.Middleware
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -43,5 +44,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		RoleMenuModel: model.NewRoleMenuModel(conn),
 		SessionStore:  store,
 		Session:       middleware.NewSessionMiddleware(store).Handle,
+		SuperAdmin:    middleware.NewSuperAdminMiddleware().Handle,
 	}
 }

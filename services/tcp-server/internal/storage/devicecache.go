@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/exp/maps"
 
-	"iotplatform/services/tcp-server/internal/protocol/model"
+	"iot-zero/services/tcp-server/internal/protocol/model"
 )
 
 var ErrDeviceNotFound = errors.New("device not found")

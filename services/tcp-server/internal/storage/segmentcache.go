@@ -4,7 +4,7 @@ import (
 	"strings"
 	"sync"
 
-	"iotplatform/services/tcp-server/internal/protocol/model"
+	"iot-zero/services/tcp-server/internal/protocol/model"
 )
 
 type SegmentCache struct {

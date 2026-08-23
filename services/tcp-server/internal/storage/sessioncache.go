@@ -7,7 +7,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"iotplatform/services/tcp-server/internal/protocol/model"
+	"iot-zero/services/tcp-server/internal/protocol/model"
 )
 
 var ErrSessionClosed = errors.New("session closed")

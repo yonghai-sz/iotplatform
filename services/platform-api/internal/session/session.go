@@ -8,7 +8,10 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/redis"
 )
 
-const keyPrefix = "login:"
+const (
+	keyPrefix         = "login:"
+	RoleKeySuperAdmin = "SuperAdmin"
+)
 
 type Store struct {
 	rds *redis.Redis

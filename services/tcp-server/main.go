@@ -4,8 +4,8 @@ import (
 	"flag"
 	"fmt"
 
-	"iotplatform/services/tcp-server/internal/config"
-	"iotplatform/services/tcp-server/internal/server"
+	"iot-zero/services/tcp-server/internal/config"
+	"iot-zero/services/tcp-server/internal/server"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"

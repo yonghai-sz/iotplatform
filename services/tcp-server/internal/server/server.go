@@ -7,9 +7,9 @@ import (
 	"net"
 	"time"
 
-	"iotplatform/services/tcp-server/internal/protocol"
-	"iotplatform/services/tcp-server/internal/protocol/model"
-	"iotplatform/services/tcp-server/internal/storage"
+	"iot-zero/services/tcp-server/internal/protocol"
+	"iot-zero/services/tcp-server/internal/protocol/model"
+	"iot-zero/services/tcp-server/internal/storage"
 	"runtime/debug"
 
 	"github.com/pkg/errors"

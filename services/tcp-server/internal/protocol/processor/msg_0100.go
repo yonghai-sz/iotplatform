@@ -3,8 +3,8 @@ package processor
 import (
 	"context"
 
-	"iotplatform/services/tcp-server/internal/protocol/model"
-	"iotplatform/services/tcp-server/internal/storage"
+	"iot-zero/services/tcp-server/internal/protocol/model"
+	"iot-zero/services/tcp-server/internal/storage"
 )
 
 func processMsg0100(ctx context.Context, data *model.ProcessData) error {

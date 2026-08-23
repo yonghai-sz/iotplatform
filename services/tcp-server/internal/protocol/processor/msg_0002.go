@@ -6,8 +6,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"iotplatform/services/tcp-server/internal/protocol/model"
-	"iotplatform/services/tcp-server/internal/storage"
+	"iot-zero/services/tcp-server/internal/protocol/model"
+	"iot-zero/services/tcp-server/internal/storage"
 )
 
 func processMsg0002(_ context.Context, data *model.ProcessData) error {

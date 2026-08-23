@@ -4,8 +4,8 @@ import (
 	"context"
 	"net"
 
-	"iotplatform/services/tcp-server/internal/protocol/model"
-	"iotplatform/services/tcp-server/internal/protocol/processor"
+	"iot-zero/services/tcp-server/internal/protocol/model"
+	"iot-zero/services/tcp-server/internal/protocol/processor"
 )
 
 type Pipeline struct {

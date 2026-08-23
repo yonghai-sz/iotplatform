@@ -6,13 +6,15 @@ package product
 import (
 	"net/http"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"iotplatform/services/platform-api/internal/logic/product"
 	"iotplatform/services/platform-api/internal/svc"
 	"iotplatform/services/platform-api/internal/types"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func CreateProductHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.CreateProductReq
 		if err := httpx.Parse(r, &req); err != nil {

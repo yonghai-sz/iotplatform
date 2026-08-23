@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"iotplatform/services/tcp-server/internal/protocol/model"
+	"iot-zero/services/tcp-server/internal/protocol/model"
 )
 
 // Return 32-bit hash result.

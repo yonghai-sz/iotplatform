@@ -3,7 +3,7 @@ package model
 import (
 	"github.com/pkg/errors"
 
-	"iotplatform/pkg/utils"
+	"iot-zero/pkg/utils"
 )
 
 var (
