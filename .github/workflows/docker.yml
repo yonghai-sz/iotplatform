@@ -15,8 +15,7 @@ concurrency:
   group: docker-${{ github.ref_name || github.run_id }}
   cancel-in-progress: true
 
-env:
-  IMAGE_REPO: ${{ github.event.repository.name }}
+
 
 jobs:
   build_and_push:
@@ -40,11 +39,11 @@ jobs:
         run: |
           set -euo pipefail
 
-          platform_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-platform-api:sha-${{ github.sha }}"
-          transform_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:sha-${{ github.sha }}"
-          mqtt_auth_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:sha-${{ github.sha }}"
-          tcp_server_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-tcp-server:sha-${{ github.sha }}"
-          mqtt_subscriber_sha="${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-subscriber:sha-${{ github.sha }}"
+          platform_sha="${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-platform-api:sha-${{ github.sha }}"
+          transform_sha="${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-transform-rpc:sha-${{ github.sha }}"
+          mqtt_auth_sha="${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-internal-api:sha-${{ github.sha }}"
+          tcp_server_sha="${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-tcp-server:sha-${{ github.sha }}"
+          mqtt_subscriber_sha="${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-mqtt-subscriber:sha-${{ github.sha }}"
 
           platform_tags="$platform_sha"
           transform_tags="$transform_sha"
@@ -53,20 +52,20 @@ jobs:
           mqtt_subscriber_tags="$mqtt_subscriber_sha"
 
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            platform_tags="${platform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-platform-api:latest"
-            transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:latest"
-            mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:latest"
-            tcp_server_tags="${tcp_server_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-tcp-server:latest"
-            mqtt_subscriber_tags="${mqtt_subscriber_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-subscriber:latest"
+            platform_tags="${platform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-platform-api:latest"
+            transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-transform-rpc:latest"
+            mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-internal-api:latest"
+            tcp_server_tags="${tcp_server_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-tcp-server:latest"
+            mqtt_subscriber_tags="${mqtt_subscriber_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-mqtt-subscriber:latest"
           fi
 
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
             tag="${GITHUB_REF#refs/tags/}"
-            platform_tags="${platform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-platform-api:${tag}"
-            transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-transform-rpc:${tag}"
-            mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-internal-api:${tag}"
-            tcp_server_tags="${tcp_server_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-tcp-server:${tag}"
-            mqtt_subscriber_tags="${mqtt_subscriber_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}-mqtt-subscriber:${tag}"
+            platform_tags="${platform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-platform-api:${tag}"
+            transform_tags="${transform_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-transform-rpc:${tag}"
+            mqtt_auth_tags="${mqtt_auth_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-internal-api:${tag}"
+            tcp_server_tags="${tcp_server_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-tcp-server:${tag}"
+            mqtt_subscriber_tags="${mqtt_subscriber_tags}"$'\n'"${{ secrets.DOCKERHUB_USERNAME }}/iot-zero-mqtt-subscriber:${tag}"
           fi
 
           {

@@ -78,7 +78,7 @@ services:
       retries: 30
 
   internal-api:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-internal-api:${TAG:-latest}
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/iot-zero-internal-api:${TAG:-latest}
     container_name: my-internal-api-container
     volumes:
       - ./myvolumes/config/internal-api.yaml:/app/etc/internal-api.yaml:ro
@@ -105,7 +105,7 @@ services:
       retries: 30
 
   mqtt-subscriber:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-mqtt-subscriber:${TAG:-latest}
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/iot-zero-mqtt-subscriber:${TAG:-latest}
     container_name: my-mqtt-subscriber-container
     depends_on:
       emqx:
@@ -115,7 +115,7 @@ services:
     entrypoint: ["./mqtt-subscriber", "-f", "etc/mqtt-subscriber.yaml"]
 
   transform-rpc:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-transform-rpc:${TAG:-latest}
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/iot-zero-transform-rpc:${TAG:-latest}
     container_name: my-transform-rpc-container
     depends_on:
       mysql:
@@ -132,7 +132,7 @@ services:
     entrypoint: ["./transform-rpc", "-f", "etc/transform.yaml"]
 
   tcp-server:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-tcp-server:${TAG:-latest}
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/iot-zero-tcp-server:${TAG:-latest}
     container_name: my-tcp-server-container
     ports:
       - "${TCP_SERVER_PORT:-7611}:7611"
@@ -141,7 +141,7 @@ services:
     entrypoint: ["./tcp-server", "-f", "etc/tcp-server.yaml"]
 
   platform-api:
-    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/${IMAGE_REPO:-iotplatform}-platform-api:${TAG:-latest}
+    image: ${IMAGE_NAMESPACE:?set IMAGE_NAMESPACE}/iot-zero-platform-api:${TAG:-latest}
     container_name: my-platform-api-container
     depends_on:
       transform-rpc:

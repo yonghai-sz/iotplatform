@@ -1,4 +1,4 @@
-# iotplatform
+# iot-zero
 
 Multi-tenant B2B example built with [go-zero](https://go-zero.dev/). It demonstrates IoT-oriented services.
 
