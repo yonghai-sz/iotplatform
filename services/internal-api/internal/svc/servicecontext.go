@@ -4,7 +4,7 @@
 package svc
 
 import (
-	"iotplatform/services/internal-api/internal/config"
+	"iot-zero/services/internal-api/internal/config"
 )
 
 type ServiceContext struct {

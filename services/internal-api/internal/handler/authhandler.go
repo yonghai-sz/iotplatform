@@ -7,9 +7,9 @@ import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"iotplatform/services/internal-api/internal/logic"
-	"iotplatform/services/internal-api/internal/svc"
-	"iotplatform/services/internal-api/internal/types"
+	"iot-zero/services/internal-api/internal/logic"
+	"iot-zero/services/internal-api/internal/svc"
+	"iot-zero/services/internal-api/internal/types"
 )
 
 func AuthHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

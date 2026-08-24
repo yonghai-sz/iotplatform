@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	"iotplatform/services/rpc-transform/internal/config"
-	"iotplatform/services/rpc-transform/internal/server"
-	"iotplatform/services/rpc-transform/internal/svc"
-	"iotplatform/services/rpc-transform/pb/transform"
+	"iot-zero/services/rpc-transform/internal/config"
+	"iot-zero/services/rpc-transform/internal/server"
+	"iot-zero/services/rpc-transform/internal/svc"
+	"iot-zero/services/rpc-transform/pb/transform"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"

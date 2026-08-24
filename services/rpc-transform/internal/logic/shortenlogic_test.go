@@ -8,10 +8,10 @@ import (
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
-	"iotplatform/services/rpc-transform/internal/svc"
-	"iotplatform/services/rpc-transform/pb/transform"
+	"iot-zero/services/rpc-transform/internal/svc"
+	"iot-zero/services/rpc-transform/pb/transform"
 
-	"iotplatform/services/rpc-transform/model"
+	"iot-zero/services/rpc-transform/model"
 )
 
 func TestShortenLogic_Shorten(t *testing.T) {

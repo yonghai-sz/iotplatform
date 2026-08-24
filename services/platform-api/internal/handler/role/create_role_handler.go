@@ -7,9 +7,9 @@ import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"iotplatform/services/platform-api/internal/logic/role"
-	"iotplatform/services/platform-api/internal/svc"
-	"iotplatform/services/platform-api/internal/types"
+	"iot-zero/services/platform-api/internal/logic/role"
+	"iot-zero/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/types"
 )
 
 func CreateRoleHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

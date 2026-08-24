@@ -1,6 +1,6 @@
 package svc
 
-import "iotplatform/services/mqtt-subscriber/internal/config"
+import "iot-zero/services/mqtt-subscriber/internal/config"
 
 // ServiceContext carries dependencies for handlers and logic.
 type ServiceContext struct {

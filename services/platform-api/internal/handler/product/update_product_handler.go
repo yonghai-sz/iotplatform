@@ -7,9 +7,9 @@ import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"iotplatform/services/platform-api/internal/logic/product"
-	"iotplatform/services/platform-api/internal/svc"
-	"iotplatform/services/platform-api/internal/types"
+	"iot-zero/services/platform-api/internal/logic/product"
+	"iot-zero/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/types"
 )
 
 func UpdateProductHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

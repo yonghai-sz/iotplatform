@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"iotplatform/services/platform-api/internal/logic/role"
-	"iotplatform/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/logic/role"
+	"iot-zero/services/platform-api/internal/svc"
 )
 
 func GetMenuTreeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

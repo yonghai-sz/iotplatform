@@ -1,8 +1,8 @@
 package svc
 
 import (
-	"iotplatform/services/rpc-transform/internal/config"
-	"iotplatform/services/rpc-transform/model"
+	"iot-zero/services/rpc-transform/internal/config"
+	"iot-zero/services/rpc-transform/model"
 
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )

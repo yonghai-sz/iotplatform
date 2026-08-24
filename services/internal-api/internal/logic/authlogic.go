@@ -6,8 +6,8 @@ package logic
 import (
 	"context"
 
-	"iotplatform/services/internal-api/internal/svc"
-	"iotplatform/services/internal-api/internal/types"
+	"iot-zero/services/internal-api/internal/svc"
+	"iot-zero/services/internal-api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

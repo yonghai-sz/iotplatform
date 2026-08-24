@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	"iotplatform/pkg/mqtt"
-	"iotplatform/services/mqtt-subscriber/internal/config"
-	"iotplatform/services/mqtt-subscriber/internal/logic"
-	"iotplatform/services/mqtt-subscriber/internal/svc"
+	"iot-zero/pkg/mqtt"
+	"iot-zero/services/mqtt-subscriber/internal/config"
+	"iot-zero/services/mqtt-subscriber/internal/logic"
+	"iot-zero/services/mqtt-subscriber/internal/svc"
 
 	gomqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/zeromicro/go-zero/core/conf"

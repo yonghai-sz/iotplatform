@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"iotplatform/services/rpc-transform/internal/logic"
-	"iotplatform/services/rpc-transform/internal/svc"
-	"iotplatform/services/rpc-transform/pb/transform"
+	"iot-zero/services/rpc-transform/internal/logic"
+	"iot-zero/services/rpc-transform/internal/svc"
+	"iot-zero/services/rpc-transform/pb/transform"
 )
 
 type TransformerServer struct {

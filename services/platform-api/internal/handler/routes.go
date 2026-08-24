@@ -6,12 +6,12 @@ package handler
 import (
 	"net/http"
 
-	login "iotplatform/services/platform-api/internal/handler/login"
-	product "iotplatform/services/platform-api/internal/handler/product"
-	role "iotplatform/services/platform-api/internal/handler/role"
-	tenant "iotplatform/services/platform-api/internal/handler/tenant"
-	user "iotplatform/services/platform-api/internal/handler/user"
-	"iotplatform/services/platform-api/internal/svc"
+	login "iot-zero/services/platform-api/internal/handler/login"
+	product "iot-zero/services/platform-api/internal/handler/product"
+	role "iot-zero/services/platform-api/internal/handler/role"
+	tenant "iot-zero/services/platform-api/internal/handler/tenant"
+	user "iot-zero/services/platform-api/internal/handler/user"
+	"iot-zero/services/platform-api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )

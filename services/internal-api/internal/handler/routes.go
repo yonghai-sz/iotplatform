@@ -6,7 +6,7 @@ package handler
 import (
 	"net/http"
 
-	"iotplatform/services/internal-api/internal/svc"
+	"iot-zero/services/internal-api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )

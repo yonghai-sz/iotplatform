@@ -3,10 +3,10 @@ package logic
 import (
 	"context"
 
-	"iotplatform/services/rpc-transform/internal/svc"
-	"iotplatform/services/rpc-transform/pb/transform"
+	"iot-zero/services/rpc-transform/internal/svc"
+	"iot-zero/services/rpc-transform/pb/transform"
 
-	"iotplatform/services/rpc-transform/model"
+	"iot-zero/services/rpc-transform/model"
 
 	"github.com/zeromicro/go-zero/core/hash"
 	"github.com/zeromicro/go-zero/core/logx"

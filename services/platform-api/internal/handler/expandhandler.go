@@ -6,9 +6,9 @@ package handler
 import (
 	"net/http"
 
-	"iotplatform/services/platform-api/internal/logic"
-	"iotplatform/services/platform-api/internal/svc"
-	"iotplatform/services/platform-api/internal/types"
+	"iot-zero/services/platform-api/internal/logic"
+	"iot-zero/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/types"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 )

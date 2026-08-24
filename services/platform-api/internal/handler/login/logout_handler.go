@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"iotplatform/services/platform-api/internal/logic/login"
-	"iotplatform/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/logic/login"
+	"iot-zero/services/platform-api/internal/svc"
 )
 
 func LogoutHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
