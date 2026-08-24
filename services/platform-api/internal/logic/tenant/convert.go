@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"time"
 
-	"iotplatform/services/platform-api/internal/types"
-	"iotplatform/services/platform-api/model"
+	"iot-zero/services/platform-api/internal/types"
+	"iot-zero/services/platform-api/model"
 )
 
 func toTenantInfo(t *model.Tenants) types.TenantInfo {

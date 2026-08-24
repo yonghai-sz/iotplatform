@@ -7,8 +7,8 @@ import (
 	"context"
 	"errors"
 
-	"iotplatform/services/platform-api/internal/session"
-	"iotplatform/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/session"
+	"iot-zero/services/platform-api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

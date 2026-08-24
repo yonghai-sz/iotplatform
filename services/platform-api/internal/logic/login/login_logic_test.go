@@ -12,12 +12,12 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
-	"iotplatform/pkg/utils"
-	"iotplatform/services/platform-api/internal/config"
-	"iotplatform/services/platform-api/internal/session"
-	"iotplatform/services/platform-api/internal/svc"
-	"iotplatform/services/platform-api/internal/types"
-	"iotplatform/services/platform-api/model"
+	"iot-zero/pkg/utils"
+	"iot-zero/services/platform-api/internal/config"
+	"iot-zero/services/platform-api/internal/session"
+	"iot-zero/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/types"
+	"iot-zero/services/platform-api/model"
 )
 
 func newLoginLogicWithMock(t *testing.T) (*LoginLogic, sqlmock.Sqlmock, *session.Store) {

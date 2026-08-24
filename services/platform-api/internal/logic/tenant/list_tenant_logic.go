@@ -6,8 +6,8 @@ package tenant
 import (
 	"context"
 
-	"iotplatform/services/platform-api/internal/svc"
-	"iotplatform/services/platform-api/internal/types"
+	"iot-zero/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

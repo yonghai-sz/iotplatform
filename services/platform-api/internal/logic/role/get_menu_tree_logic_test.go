@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
-	"iotplatform/services/platform-api/internal/svc"
-	"iotplatform/services/platform-api/model"
+	"iot-zero/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/model"
 )
 
 func newMenuTreeLogicWithMock(t *testing.T, ctx context.Context) (*GetMenuTreeLogic, sqlmock.Sqlmock) {

@@ -6,7 +6,7 @@ package middleware
 import (
 	"net/http"
 
-	"iotplatform/services/platform-api/internal/session"
+	"iot-zero/services/platform-api/internal/session"
 )
 
 type SessionMiddleware struct {

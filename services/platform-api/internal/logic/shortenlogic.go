@@ -6,9 +6,9 @@ package logic
 import (
 	"context"
 
-	"iotplatform/services/platform-api/internal/svc"
-	"iotplatform/services/platform-api/internal/types"
-	"iotplatform/services/rpc-transform/transformer"
+	"iot-zero/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/types"
+	"iot-zero/services/rpc-transform/transformer"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

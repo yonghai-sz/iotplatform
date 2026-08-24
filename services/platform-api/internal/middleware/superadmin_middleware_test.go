@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"iotplatform/services/platform-api/internal/session"
+	"iot-zero/services/platform-api/internal/session"
 )
 
 func TestSuperAdminMiddleware_Handle(t *testing.T) {

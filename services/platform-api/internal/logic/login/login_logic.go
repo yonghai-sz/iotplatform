@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
-	"iotplatform/pkg/utils"
-	"iotplatform/services/platform-api/internal/svc"
-	"iotplatform/services/platform-api/internal/types"
-	"iotplatform/services/platform-api/model"
+	"iot-zero/pkg/utils"
+	"iot-zero/services/platform-api/internal/svc"
+	"iot-zero/services/platform-api/internal/types"
+	"iot-zero/services/platform-api/model"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/zeromicro/go-zero/core/logx"

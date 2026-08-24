@@ -4,11 +4,11 @@
 package svc
 
 import (
-	"iotplatform/services/platform-api/internal/config"
-	"iotplatform/services/platform-api/internal/middleware"
-	"iotplatform/services/platform-api/internal/session"
-	"iotplatform/services/platform-api/model"
-	"iotplatform/services/rpc-transform/transformer"
+	"iot-zero/services/platform-api/internal/config"
+	"iot-zero/services/platform-api/internal/middleware"
+	"iot-zero/services/platform-api/internal/session"
+	"iot-zero/services/platform-api/model"
+	"iot-zero/services/rpc-transform/transformer"
 
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"

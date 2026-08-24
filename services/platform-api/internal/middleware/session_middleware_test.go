@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 
-	"iotplatform/services/platform-api/internal/session"
+	"iot-zero/services/platform-api/internal/session"
 )
 
 func TestSessionMiddleware_Handle(t *testing.T) {

@@ -1,7 +1,7 @@
 package utils_test
 
 import (
-	"iotplatform/pkg/utils"
+	"iot-zero/pkg/utils"
 	"testing"
 )
 
