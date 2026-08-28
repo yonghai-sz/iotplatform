@@ -36,12 +36,12 @@ func NewGetMenuTreeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetMe
 }
 
 func (l *GetMenuTreeLogic) GetMenuTree() (*types.GetMenuTreeResp, error) {
-	roleKey, ok := session.RoleKeyFromContext(l.ctx)
+	roleType, ok := session.RoleTypeFromContext(l.ctx)
 	if !ok {
 		return nil, errUnauthorized
 	}
 
-	role, err := l.svcCtx.RoleModel.FindOneByRoleKey(l.ctx, roleKey)
+	role, err := l.svcCtx.RoleModel.FindOneByRoleType(l.ctx, roleType)
 	if err != nil {
 		if errors.Is(err, model.ErrNotFound) {
 			return nil, errRoleNotFound

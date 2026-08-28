@@ -40,7 +40,7 @@ func (l *CreateRoleLogic) CreateRole(req *types.CreateRoleReq) (resp *types.Crea
 	}
 
 	result, err := l.svcCtx.RoleModel.Insert(l.ctx, &model.Role{
-		RoleKey:  "",
+		RoleType: "",
 		RoleName: name,
 		Enable:   boolToEnable(req.Enable),
 		TenantId: req.TenantId,
@@ -58,7 +58,7 @@ func (l *CreateRoleLogic) CreateRole(req *types.CreateRoleReq) (resp *types.Crea
 	if err != nil {
 		return nil, err
 	}
-	entity.RoleKey = strconv.FormatInt(id, 10)
+	entity.RoleType = strconv.FormatInt(id, 10)
 	if err = l.svcCtx.RoleModel.Update(l.ctx, entity); err != nil {
 		return nil, err
 	}

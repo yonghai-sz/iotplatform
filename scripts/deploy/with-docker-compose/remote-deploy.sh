@@ -3,11 +3,18 @@ set -euo pipefail
 
 
 if [[ -z "$DEPLOY_PATH" ]]; then
-    echo "DEPLOY_PATH is not set" >&2
-    exit 1
+  echo "DEPLOY_PATH is not set" >&2
+  exit 1
 fi
 cd "$DEPLOY_PATH"
 echo "Deploy path: $DEPLOY_PATH"
+
+
+
+
+
+
+
 
 if [[ ! -f docker-compose.prod.yml ]]; then
   echo "compose file not found: $DEPLOY_PATH/docker-compose.prod.yml" >&2
@@ -42,7 +49,15 @@ if ! docker compose version >/dev/null 2>&1; then
   exit 1
 fi
 
-TAG="${TAG:-latest}"
+
+
+
+
+
+if [[ -z "$TAG" ]]; then
+  echo "TAG is not set" >&2
+  exit 1
+fi
 echo "Image tag: $TAG"
 export TAG
 

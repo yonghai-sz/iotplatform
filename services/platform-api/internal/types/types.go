@@ -138,7 +138,7 @@ type RoleIdPathReq struct {
 
 type RoleInfo struct {
 	Id        uint64 `json:"id"`
-	RoleKey   string `json:"roleKey"`
+	RoleType  string `json:"roleType"`
 	RoleName  string `json:"roleName"`
 	Enable    bool   `json:"enable"`
 	TenantId  uint64 `json:"tenantId"`

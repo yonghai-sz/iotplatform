@@ -40,7 +40,7 @@ type (
 		CreatedAt sql.NullTime `db:"created_at"`
 		UpdatedAt sql.NullTime `db:"updated_at"`
 		DeletedAt sql.NullTime `db:"deleted_at"`
-		RoleKey   string       `db:"role_key"`
+		RoleType  string       `db:"role_type"`
 		RoleName  string       `db:"role_name"`
 		Enable    string       `db:"enable"`
 		TenantId  uint64       `db:"tenant_id"`
@@ -76,13 +76,13 @@ func (m *defaultRoleModel) FindOne(ctx context.Context, id uint64) (*Role, error
 
 func (m *defaultRoleModel) Insert(ctx context.Context, data *Role) (sql.Result, error) {
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?)", m.table, roleRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.DeletedAt, data.RoleKey, data.RoleName, data.Enable, data.TenantId)
+	ret, err := m.conn.ExecCtx(ctx, query, data.DeletedAt, data.RoleType, data.RoleName, data.Enable, data.TenantId)
 	return ret, err
 }
 
 func (m *defaultRoleModel) Update(ctx context.Context, data *Role) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, roleRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.DeletedAt, data.RoleKey, data.RoleName, data.Enable, data.TenantId, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.DeletedAt, data.RoleType, data.RoleName, data.Enable, data.TenantId, data.Id)
 	return err
 }
 

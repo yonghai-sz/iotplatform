@@ -9,7 +9,7 @@ SET names utf8mb4;
 
 BEGIN;
 
-INSERT INTO `role` ( `role_key`, `role_name`, `created_at`) VALUES ( 'SuperAdmin', 'super administrator', NOW(3) );
+INSERT INTO `role` ( `role_type`, `role_name`, `created_at`) VALUES ( 'SuperAdmin', 'super administrator', NOW(3) );
 
 
 INSERT INTO `user` ( `username`, `password`, `salt`, `role_id`, `created_at`)

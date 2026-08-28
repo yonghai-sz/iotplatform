@@ -76,7 +76,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (*types.LoginResp, error) {
 	token, err := getJwtToken(l.svcCtx.Config.Auth.AccessSecret, now, l.svcCtx.Config.Auth.AccessExpire, jwtClaims{
 		Username: username,
 		UserID:   user.Id,
-		RoleKey:  role.RoleKey,
+		RoleType: role.RoleType,
 		TenantID: user.TenantId,
 	})
 	if err != nil {
@@ -96,7 +96,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (*types.LoginResp, error) {
 type jwtClaims struct {
 	Username string
 	UserID   uint64
-	RoleKey  string
+	RoleType string
 	TenantID uint64
 }
 
@@ -106,7 +106,7 @@ func getJwtToken(secretKey string, iat, seconds int64, claims jwtClaims) (string
 	payload["iat"] = iat
 	payload["username"] = claims.Username
 	payload["userId"] = claims.UserID
-	payload["roleKey"] = claims.RoleKey
+	payload["roleType"] = claims.RoleType
 	payload["tenantId"] = claims.TenantID
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
 	return token.SignedString([]byte(secretKey))

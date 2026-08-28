@@ -17,8 +17,8 @@ func NewSuperAdminMiddleware() *SuperAdminMiddleware {
 
 func (m *SuperAdminMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		roleKey, ok := session.RoleKeyFromContext(r.Context())
-		if !ok || roleKey != session.RoleKeySuperAdmin {
+		roleType, ok := session.RoleTypeFromContext(r.Context())
+		if !ok || roleType != session.RoleTypeSuperAdmin {
 			w.WriteHeader(http.StatusForbidden)
 			return
 		}

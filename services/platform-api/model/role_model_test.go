@@ -31,7 +31,7 @@ func TestRoleModel_InsertAndFindOne(t *testing.T) {
 		WillReturnResult(sqlmock.NewResult(9, 1))
 
 	result, err := m.Insert(ctx, &Role{
-		RoleKey:  "",
+		RoleType: "",
 		RoleName: "admin",
 		Enable:   "Enable",
 		TenantId: 1,
@@ -42,7 +42,7 @@ func TestRoleModel_InsertAndFindOne(t *testing.T) {
 	ast.Equal(int64(9), id)
 
 	now := time.Now()
-	rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_key", "role_name", "enable", "tenant_id"}).
+	rows := sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_type", "role_name", "enable", "tenant_id"}).
 		AddRow(uint64(9), now, now, nil, "9", "admin", "Enable", uint64(1))
 	mock.ExpectQuery("select .+ from `role` where `id` = \\? and `deleted_at` is null").
 		WithArgs(uint64(9)).
@@ -50,30 +50,30 @@ func TestRoleModel_InsertAndFindOne(t *testing.T) {
 
 	got, err := m.FindOne(ctx, 9)
 	ast.NoError(err)
-	ast.Equal("9", got.RoleKey)
+	ast.Equal("9", got.RoleType)
 	ast.Equal("admin", got.RoleName)
 }
 
-func TestRoleModel_FindOneByRoleKey(t *testing.T) {
+func TestRoleModel_FindOneByRoleType(t *testing.T) {
 	ast := assert.New(t)
 	m, mock := newMockRoleModel(t)
 	ctx := context.Background()
 	now := time.Now()
 
-	mock.ExpectQuery("select .+ from `role` where `role_key` = \\? and `deleted_at` is null").
+	mock.ExpectQuery("select .+ from `role` where `role_type` = \\? and `deleted_at` is null").
 		WithArgs("admin").
-		WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_key", "role_name", "enable", "tenant_id"}).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_type", "role_name", "enable", "tenant_id"}).
 			AddRow(uint64(2), now, now, nil, "admin", "Admin", "Enable", uint64(1)))
 
-	got, err := m.FindOneByRoleKey(ctx, "admin")
+	got, err := m.FindOneByRoleType(ctx, "admin")
 	ast.NoError(err)
 	ast.Equal(uint64(2), got.Id)
-	ast.Equal("admin", got.RoleKey)
+	ast.Equal("admin", got.RoleType)
 
-	mock.ExpectQuery("select .+ from `role` where `role_key` = \\? and `deleted_at` is null").
+	mock.ExpectQuery("select .+ from `role` where `role_type` = \\? and `deleted_at` is null").
 		WithArgs("missing").
 		WillReturnError(sqlx.ErrNotFound)
-	_, err = m.FindOneByRoleKey(ctx, "missing")
+	_, err = m.FindOneByRoleType(ctx, "missing")
 	ast.ErrorIs(err, ErrNotFound)
 }
 
@@ -89,7 +89,7 @@ func TestRoleModel_FindPage(t *testing.T) {
 	now := time.Now()
 	mock.ExpectQuery("select .+ from `role` where `deleted_at` is null and `tenant_id` = \\? and `role_name` like \\? order by `updated_at` desc limit \\? offset \\?").
 		WithArgs(uint64(1), "%admin%", int64(20), int64(0)).
-		WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_key", "role_name", "enable", "tenant_id"}).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_type", "role_name", "enable", "tenant_id"}).
 			AddRow(uint64(1), now, now, nil, "1", "admin", "Enable", uint64(1)))
 
 	total, list, err := m.FindPage(ctx, 1, "admin", 1, 20)

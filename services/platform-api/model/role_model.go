@@ -17,7 +17,7 @@ type (
 	// and implement the added methods in customRoleModel.
 	RoleModel interface {
 		roleModel
-		FindOneByRoleKey(ctx context.Context, roleKey string) (*Role, error)
+		FindOneByRoleType(ctx context.Context, roleType string) (*Role, error)
 		FindPage(ctx context.Context, tenantId uint64, roleName string, pageIndex, pageSize int64) (int64, []*Role, error)
 		withSession(session sqlx.Session) RoleModel
 	}
@@ -46,8 +46,8 @@ func (m *customRoleModel) Insert(ctx context.Context, data *Role) (sql.Result, e
 	if data.Enable == "" {
 		data.Enable = "Enable"
 	}
-	query := fmt.Sprintf("insert into %s (`created_at`, `updated_at`, `role_key`, `role_name`, `enable`, `tenant_id`) values (?, ?, ?, ?, ?, ?)", m.table)
-	return m.conn.ExecCtx(ctx, query, data.CreatedAt, data.UpdatedAt, data.RoleKey, data.RoleName, data.Enable, data.TenantId)
+	query := fmt.Sprintf("insert into %s (`created_at`, `updated_at`, `role_type`, `role_name`, `enable`, `tenant_id`) values (?, ?, ?, ?, ?, ?)", m.table)
+	return m.conn.ExecCtx(ctx, query, data.CreatedAt, data.UpdatedAt, data.RoleType, data.RoleName, data.Enable, data.TenantId)
 }
 
 func (m *customRoleModel) FindOne(ctx context.Context, id uint64) (*Role, error) {
@@ -66,8 +66,8 @@ func (m *customRoleModel) FindOne(ctx context.Context, id uint64) (*Role, error)
 
 func (m *customRoleModel) Update(ctx context.Context, data *Role) error {
 	data.UpdatedAt = sql.NullTime{Time: time.Now(), Valid: true}
-	query := fmt.Sprintf("update %s set `updated_at` = ?, `role_key` = ?, `role_name` = ?, `enable` = ?, `tenant_id` = ? where `id` = ? and `deleted_at` is null", m.table)
-	_, err := m.conn.ExecCtx(ctx, query, data.UpdatedAt, data.RoleKey, data.RoleName, data.Enable, data.TenantId, data.Id)
+	query := fmt.Sprintf("update %s set `updated_at` = ?, `role_type` = ?, `role_name` = ?, `enable` = ?, `tenant_id` = ? where `id` = ? and `deleted_at` is null", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, data.UpdatedAt, data.RoleType, data.RoleName, data.Enable, data.TenantId, data.Id)
 	return err
 }
 
@@ -88,10 +88,10 @@ func (m *customRoleModel) Delete(ctx context.Context, id uint64) error {
 	return nil
 }
 
-func (m *customRoleModel) FindOneByRoleKey(ctx context.Context, roleKey string) (*Role, error) {
-	query := fmt.Sprintf("select %s from %s where `role_key` = ? and `deleted_at` is null limit 1", roleRows, m.table)
+func (m *customRoleModel) FindOneByRoleType(ctx context.Context, roleType string) (*Role, error) {
+	query := fmt.Sprintf("select %s from %s where `role_type` = ? and `deleted_at` is null limit 1", roleRows, m.table)
 	var resp Role
-	err := m.conn.QueryRowCtx(ctx, &resp, query, roleKey)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, roleType)
 	switch err {
 	case nil:
 		return &resp, nil

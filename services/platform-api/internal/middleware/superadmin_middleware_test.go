@@ -25,7 +25,7 @@ func TestSuperAdminMiddleware_Handle(t *testing.T) {
 
 	t.Run("non super admin", func(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPost, "/v1/products", nil)
-		req = req.WithContext(context.WithValue(req.Context(), "roleKey", "admin"))
+		req = req.WithContext(context.WithValue(req.Context(), "roleType", "admin"))
 		rr := httptest.NewRecorder()
 		handler(rr, req)
 		assert.Equal(t, http.StatusForbidden, rr.Code)
@@ -33,7 +33,7 @@ func TestSuperAdminMiddleware_Handle(t *testing.T) {
 
 	t.Run("super admin", func(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPost, "/v1/products", nil)
-		req = req.WithContext(context.WithValue(req.Context(), "roleKey", session.RoleKeySuperAdmin))
+		req = req.WithContext(context.WithValue(req.Context(), "roleType", session.RoleTypeSuperAdmin))
 		rr := httptest.NewRecorder()
 		handler(rr, req)
 		assert.Equal(t, http.StatusOK, rr.Code)

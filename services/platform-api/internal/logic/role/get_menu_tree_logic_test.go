@@ -41,10 +41,10 @@ func TestGetMenuTreeLogic_GetMenuTree(t *testing.T) {
 
 	t.Run("role not found", func(t *testing.T) {
 		ast := assert.New(t)
-		ctx := context.WithValue(context.Background(), "roleKey", "missing")
+		ctx := context.WithValue(context.Background(), "roleType", "missing")
 		l, mock := newMenuTreeLogicWithMock(t, ctx)
 
-		mock.ExpectQuery("select .+ from `role` where `role_key` = \\? and `deleted_at` is null").
+		mock.ExpectQuery("select .+ from `role` where `role_type` = \\? and `deleted_at` is null").
 			WithArgs("missing").
 			WillReturnError(sqlx.ErrNotFound)
 
@@ -54,12 +54,12 @@ func TestGetMenuTreeLogic_GetMenuTree(t *testing.T) {
 
 	t.Run("empty menus", func(t *testing.T) {
 		ast := assert.New(t)
-		ctx := context.WithValue(context.Background(), "roleKey", "admin")
+		ctx := context.WithValue(context.Background(), "roleType", "admin")
 		l, mock := newMenuTreeLogicWithMock(t, ctx)
 
-		mock.ExpectQuery("select .+ from `role` where `role_key` = \\? and `deleted_at` is null").
+		mock.ExpectQuery("select .+ from `role` where `role_type` = \\? and `deleted_at` is null").
 			WithArgs("admin").
-			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_key", "role_name", "enable", "tenant_id"}).
+			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_type", "role_name", "enable", "tenant_id"}).
 				AddRow(uint64(2), now, now, nil, "admin", "Admin", "Enable", uint64(1)))
 		mock.ExpectQuery("select `menu_id` from `role_menu` where `role_id` = \\?").
 			WithArgs(uint64(2)).
@@ -72,12 +72,12 @@ func TestGetMenuTreeLogic_GetMenuTree(t *testing.T) {
 
 	t.Run("builds tree through role_menu and ancestors", func(t *testing.T) {
 		ast := assert.New(t)
-		ctx := context.WithValue(context.Background(), "roleKey", "admin")
+		ctx := context.WithValue(context.Background(), "roleType", "admin")
 		l, mock := newMenuTreeLogicWithMock(t, ctx)
 
-		mock.ExpectQuery("select .+ from `role` where `role_key` = \\? and `deleted_at` is null").
+		mock.ExpectQuery("select .+ from `role` where `role_type` = \\? and `deleted_at` is null").
 			WithArgs("admin").
-			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_key", "role_name", "enable", "tenant_id"}).
+			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_type", "role_name", "enable", "tenant_id"}).
 				AddRow(uint64(2), now, now, nil, "admin", "Admin", "Enable", uint64(1)))
 		mock.ExpectQuery("select `menu_id` from `role_menu` where `role_id` = \\?").
 			WithArgs(uint64(2)).

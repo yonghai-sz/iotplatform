@@ -61,48 +61,48 @@ jobs:
             "export DEPLOY_PATH='${DEPLOY_PATH}'; export IMAGE_NAMESPACE='${IMAGE_NAMESPACE}'; export TAG='${TAG}'; bash -s" \
             < scripts/deploy/with-docker-compose/remote-deploy.sh
 
-  deploy_production:
-    if: >-
-      ${{
-        github.event.workflow_run.conclusion == 'success' &&
-        github.event.workflow_run.event == 'push' &&
-        github.event.workflow_run.head_branch == 'main'
-      }}
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Checkout (for deploy script)
-        uses: actions/checkout@v5
+  # deploy_production:
+  #   if: >-
+  #     ${{
+  #       github.event.workflow_run.conclusion == 'success' &&
+  #       github.event.workflow_run.event == 'push' &&
+  #       github.event.workflow_run.head_branch == 'main'
+  #     }}
+  #   runs-on: ubuntu-latest
+  #   environment: production
+  #   steps:
+  #     - name: Checkout (for deploy script)
+  #       uses: actions/checkout@v5
 
-      - name: Start ssh-agent
-        uses: webfactory/ssh-agent@v0.10.0
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+  #     - name: Start ssh-agent
+  #       uses: webfactory/ssh-agent@v0.10.0
+  #       with:
+  #         ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
 
-      - name: Show deploy target
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "environment=production"
-          echo "branch=${{ github.event.workflow_run.head_branch }}"
-          echo "repo=${{ github.event.repository.name }}"
-          echo "tag=sha-${{ github.event.workflow_run.head_sha }}"
+  #     - name: Show deploy target
+  #       shell: bash
+  #       run: |
+  #         set -euo pipefail
+  #         echo "environment=production"
+  #         echo "branch=${{ github.event.workflow_run.head_branch }}"
+  #         echo "repo=${{ github.event.repository.name }}"
+  #         echo "tag=sha-${{ github.event.workflow_run.head_sha }}"
 
-      - name: Deploy over SSH (docker compose)
-        env:
-          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
-          IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
-          TAG: sha-${{ github.event.workflow_run.head_sha }}
-        shell: bash
-        run: |
-          set -euo pipefail
+  #     - name: Deploy over SSH (docker compose)
+  #       env:
+  #         DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+  #         DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+  #         DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+  #         DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+  #         IMAGE_NAMESPACE: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         TAG: sha-${{ github.event.workflow_run.head_sha }}
+  #       shell: bash
+  #       run: |
+  #         set -euo pipefail
 
-          port="${DEPLOY_PORT:-22}"
+  #         port="${DEPLOY_PORT:-22}"
 
-          ssh -p "${port}" -o StrictHostKeyChecking=no "${DEPLOY_USER}@${DEPLOY_HOST}" \
-            "export DEPLOY_PATH='${DEPLOY_PATH}'; export IMAGE_NAMESPACE='${IMAGE_NAMESPACE}'; export TAG='${TAG}'; bash -s" \
-            < scripts/deploy/with-docker-compose/remote-deploy.sh
+  #         ssh -p "${port}" -o StrictHostKeyChecking=no "${DEPLOY_USER}@${DEPLOY_HOST}" \
+  #           "export DEPLOY_PATH='${DEPLOY_PATH}'; export IMAGE_NAMESPACE='${IMAGE_NAMESPACE}'; export TAG='${TAG}'; bash -s" \
+  #           < scripts/deploy/with-docker-compose/remote-deploy.sh
 

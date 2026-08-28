@@ -47,7 +47,7 @@ func TestLoginLogic_Login(t *testing.T) {
 		username = "alice"
 		password = "secret"
 		salt     = "salt"
-		roleKey  = "admin"
+		roleType = "admin"
 	)
 	hashed := utils.HashPassword(password, salt)
 	now := time.Now()
@@ -62,8 +62,8 @@ func TestLoginLogic_Login(t *testing.T) {
 				AddRow(uint64(8), now, now, nil, username, hashed, salt, "Enable", uint64(2), uint64(1)))
 		mock.ExpectQuery("select .+ from `role` where `id` = \\? and `deleted_at` is null").
 			WithArgs(uint64(2)).
-			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_key", "role_name", "enable", "tenant_id"}).
-				AddRow(uint64(2), now, now, nil, roleKey, "Admin", "Enable", uint64(1)))
+			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_type", "role_name", "enable", "tenant_id"}).
+				AddRow(uint64(2), now, now, nil, roleType, "Admin", "Enable", uint64(1)))
 
 		resp, err := l.Login(&types.LoginReq{Username: username, Password: password})
 		ast.NoError(err)
@@ -76,7 +76,7 @@ func TestLoginLogic_Login(t *testing.T) {
 		ast.NoError(err)
 		claims := parsed.Claims.(jwt.MapClaims)
 		ast.Equal(username, claims["username"])
-		ast.Equal(roleKey, claims["roleKey"])
+		ast.Equal(roleType, claims["roleType"])
 		ast.Equal(float64(8), claims["userId"])
 		ast.Equal(float64(1), claims["tenantId"])
 
@@ -133,8 +133,8 @@ func TestLoginLogic_Login(t *testing.T) {
 				AddRow(uint64(8), now, now, nil, username, hashed, salt, "Enable", uint64(2), uint64(1)))
 		mock.ExpectQuery("select .+ from `role` where `id` = \\? and `deleted_at` is null").
 			WithArgs(uint64(2)).
-			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_key", "role_name", "enable", "tenant_id"}).
-				AddRow(uint64(2), now, now, nil, roleKey, "Admin", "Disable", uint64(1)))
+			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "role_type", "role_name", "enable", "tenant_id"}).
+				AddRow(uint64(2), now, now, nil, roleType, "Admin", "Disable", uint64(1)))
 
 		_, err := l.Login(&types.LoginReq{Username: username, Password: password})
 		ast.ErrorIs(err, errRoleDisabled)

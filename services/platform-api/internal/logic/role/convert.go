@@ -11,7 +11,7 @@ import (
 func toRoleInfo(r *model.Role) types.RoleInfo {
 	return types.RoleInfo{
 		Id:        r.Id,
-		RoleKey:   r.RoleKey,
+		RoleType:  r.RoleType,
 		RoleName:  r.RoleName,
 		Enable:    enableToBool(r.Enable),
 		TenantId:  r.TenantId,

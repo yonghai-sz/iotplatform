@@ -10,7 +10,7 @@ import (
 
 const (
 	keyPrefix         = "login:"
-	RoleKeySuperAdmin = "SuperAdmin"
+	RoleTypeSuperAdmin = "SuperAdmin"
 )
 
 type Store struct {
@@ -51,8 +51,8 @@ func UsernameFromContext(ctx context.Context) (string, bool) {
 	return s, ok && s != ""
 }
 
-func RoleKeyFromContext(ctx context.Context) (string, bool) {
-	v := ctx.Value("roleKey")
+func RoleTypeFromContext(ctx context.Context) (string, bool) {
+	v := ctx.Value("roleType")
 	s, ok := v.(string)
 	return s, ok && s != ""
 }
